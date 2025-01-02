@@ -6,13 +6,13 @@ import {
   AmbientLight,
   Quaternion,
   Euler,
-  Vector3
+  Vector3,
 } from "three";
 
 import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const { chosenLevel } = settings();
 
@@ -47,7 +47,7 @@ export class Engine {
     this.layer = chosenLevel.value;
     this.clock = new Clock();
     this.delta = 0;
-    this.mouseDirection = new Vector3(0,0,1);
+    this.mouseDirection = new Vector3(0, 0, 1);
 
     this.pixelRatio =
       width < 900
@@ -128,12 +128,10 @@ export class Engine {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-
   moveVision(event) {
-    const sensitivity = 0.002; // Sensibilité de la souris
+    const sensitivity = 0.002;
     const horizontalMovement = event.movementX;
 
-    // Ajuster la rotation horizontale de la caméra
     this.camera.rotation.y -= horizontalMovement * sensitivity;
   }
 

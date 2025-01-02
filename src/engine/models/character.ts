@@ -1,6 +1,6 @@
 import {
   BoxGeometry,
-  ShaderMaterial,
+  MeshPhongMaterial,
   Mesh,
   Box3,
   Vector3,
@@ -35,7 +35,8 @@ export default class Character {
     this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
     this.accelerate = false;
     this.boundingBox = new Box3();
-    this.light = new PointLight(0xff00d4, 0.3, 4);
+    this.light = new PointLight(0xff0000, 0.5, 7);
+    this.light.position.y = -0;
     this.mesh.add(this.light);
   }
 
@@ -54,35 +55,17 @@ export default class Character {
 
   createCharacter() {
     const { x, z } = layers[this.engine.layer].characterPlacement;
-    const box = new BoxGeometry(0.2, 0.2, 0.2);
-    const material = new ShaderMaterial({
-      transparent: true,
-      uniforms: {
-        emissiveColor: { value: new Vector3(9, 4, 1) },
-        uInstanceCount: { value: 40 },
-      },
-      vertexShader: `
-      void main() {
-        vec4 mPosition = modelMatrix * vec4( position, 1.0);
-        #ifdef USE_INSTANCING
-        mPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
-        #endif
-        gl_Position = projectionMatrix * viewMatrix * mPosition;
-        }
-        `,
-      fragmentShader: `
-        uniform vec3 emissiveColor;
-
-        void main() {
-          gl_FragColor = vec4(emissiveColor, 1.);
-          }
-          `,
-    });
+    const box = new BoxGeometry(0.1, 0.1, 0.1);
+    const material = new MeshPhongMaterial();
 
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "character";
     this.mesh.add(mesh);
     this.mesh.position.set(x - 11.5, 0, z - 11.5);
+  }
+
+  rotateCharacter(vRotate: number) {
+    this.mesh.rotation.y -= vRotate;
   }
 
   getEventMove() {
@@ -133,7 +116,6 @@ export default class Character {
       anticipatedPosition.add(moveX);
     }
 
-    // Vérification des collisions
     if (!this.checkObstacleCollision(anticipatedPosition)) {
       newPosition.copy(anticipatedPosition);
     } else {
@@ -217,7 +199,7 @@ export default class Character {
 
   updateCameraPosition() {
     this.engine.camera.position.x = this.mesh.position.x;
-    this.engine.camera.position.y = this.mesh.position.y;
+    this.engine.camera.position.y = this.mesh.position.y + 0.2;
     this.engine.camera.position.z = this.mesh.position.z;
   }
 

@@ -28,8 +28,6 @@ export default class Environment {
     const box = new BoxGeometry(1, 2, 1);
     const material = new MeshPhongMaterial({
       color: 0xffffff,
-      shininess: 15,
-      specular: 0x00cddb,
     });
 
     const mesh = new Mesh(box, material);
