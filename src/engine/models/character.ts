@@ -35,8 +35,8 @@ export default class Character {
     this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
     this.accelerate = false;
     this.boundingBox = new Box3();
-    this.light = new PointLight(0xff0000, 0.5, 7);
-    this.light.position.y = -0;
+    this.light = new PointLight(0xff0000, 1.8, 4);
+    this.light.position.y = 1.6;
     this.mesh.add(this.light);
   }
 
