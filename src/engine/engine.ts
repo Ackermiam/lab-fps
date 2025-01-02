@@ -34,6 +34,7 @@ export class Engine {
   layer: number;
   clock: Clock;
   delta: number;
+  sensitivity: number;
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
@@ -41,12 +42,13 @@ export class Engine {
     this.mousePos = { x: 0, y: 0 };
     this.ref = ref;
     this.scene = new Scene();
-    this.camera = new PerspectiveCamera(55, width / height);
+    this.camera = new PerspectiveCamera(80, width / height);
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 0);
     this.layer = chosenLevel.value;
     this.clock = new Clock();
     this.delta = 0;
+    this.sensitivity = 0.002;
     this.mouseDirection = new Vector3(0, 0, 1);
 
     this.pixelRatio =
@@ -129,19 +131,26 @@ export class Engine {
   }
 
   moveVision(event) {
-    const sensitivity = 0.002;
     const horizontalMovement = event.movementX;
 
-    this.camera.rotation.y -= horizontalMovement * sensitivity;
+    this.camera.rotation.y -= horizontalMovement * this.sensitivity;
   }
 
   enablePointerLock() {
     document.body.requestPointerLock();
 
-    document.addEventListener("mousemove", (event) => {
-      this.moveVision(event);
-    });
+    document.addEventListener("mousemove", this.handleMouseMove);
   }
+
+  disablePointerLock() {
+    document.exitPointerLock();
+
+    document.removeEventListener("mousemove", this.handleMouseMove);
+  }
+
+  handleMouseMove = (event: MouseEvent) => {
+    this.moveVision(event);
+  };
 
   registerEventListeners() {
     window.onresize = () => {
@@ -151,11 +160,8 @@ export class Engine {
       this.mousePos = { x: e.clientX, y: e.clientY };
     });
 
-    /*window.addEventListener("finishLevel", () => {
+    window.addEventListener("finishLevel", () => {
       this.stop();
     });
-    window.addEventListener("finishSpeedrunLevel", () => {
-      this.stop();
-    });*/
   }
 }

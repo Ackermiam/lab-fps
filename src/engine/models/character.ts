@@ -6,12 +6,13 @@ import {
   Vector3,
   PointLight,
   Matrix4,
+  DirectionalLight
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
-import { settings } from "../../composables/handleSettings";
+//import { settings } from "../../composables/handleSettings";
 
-const { isSpeedrun } = settings();
+//const { display } = settings();
 
 export default class Character {
   mesh: Mesh;
@@ -20,9 +21,10 @@ export default class Character {
   engine: Engine;
   boundingBox: Box3;
   light: PointLight;
+  directionalLight: DirectionalLight;
   collideGround: boolean;
   canMove: boolean;
-  accelerate: boolean;
+  accelerate: number;
 
   constructor(engine: Engine) {
     this.collideGround = true;
@@ -33,10 +35,11 @@ export default class Character {
     this.createCharacter();
     this.getEventMove();
     this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
-    this.accelerate = false;
+    this.accelerate = 1;
     this.boundingBox = new Box3();
-    this.light = new PointLight(0xff0000, 1.8, 4);
+    this.light = new PointLight(0xff0000, 1, 3);
     this.light.position.y = 1.6;
+    this.directionalLight = new DirectionalLight();
     this.mesh.add(this.light);
   }
 
@@ -55,8 +58,8 @@ export default class Character {
 
   createCharacter() {
     const { x, z } = layers[this.engine.layer].characterPlacement;
-    const box = new BoxGeometry(0.1, 0.1, 0.1);
-    const material = new MeshPhongMaterial();
+    const box = new BoxGeometry(0.2, 0.2, 0.2);
+    const material = new MeshPhongMaterial({ visible: false});
 
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "character";
@@ -104,14 +107,14 @@ export default class Character {
 
     if (this.vecteur_mouvement.z !== 0) {
       const moveZ = forwardVector.multiplyScalar(
-        this.vecteur_mouvement.z * this.speed * this.engine.delta
+        this.vecteur_mouvement.z * this.speed * this.accelerate * this.engine.delta
       );
       anticipatedPosition.add(moveZ);
     }
 
     if (this.vecteur_mouvement.x !== 0) {
       const moveX = rightVector.multiplyScalar(
-        this.vecteur_mouvement.x * this.speed * this.engine.delta
+        this.vecteur_mouvement.x * this.speed * this.accelerate * this.engine.delta
       );
       anticipatedPosition.add(moveX);
     }
@@ -200,7 +203,7 @@ export default class Character {
   updateCameraPosition() {
     this.engine.camera.position.x = this.mesh.position.x;
     this.engine.camera.position.y = this.mesh.position.y + 0.2;
-    this.engine.camera.position.z = this.mesh.position.z;
+    this.engine.camera.position.z = this.mesh.position.z + 0.07;
   }
 
   updateBoundingBox() {
@@ -209,13 +212,10 @@ export default class Character {
   }
 
   finishLevel() {
-    const finishSpeedrunLevel = new CustomEvent("finishSpeedrunLevel", {
-      detail: "finishSpeedrunLevel",
-    });
     const finishLevel = new CustomEvent("finishLevel", {
       detail: "finishLevel",
     });
 
-    window.dispatchEvent(isSpeedrun.value ? finishSpeedrunLevel : finishLevel);
+    window.dispatchEvent(finishLevel);
   }
 }

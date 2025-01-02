@@ -3,7 +3,7 @@ import { layers } from "../engine/data/layers/layers";
 
 const display = ref("Home");
 const chosenLevel = ref(0);
-const isSpeedrun = ref(false);
+const panelIsVisible = ref(true);
 
 export const settings = () => {
   const choseLevel = () => {
@@ -29,14 +29,23 @@ export const settings = () => {
     display.value = "Arcade";
   };
 
+  const openPanel = () => {
+    panelIsVisible.value = true;
+  }
+  const closePanel = () => {
+    panelIsVisible.value = false;
+  }
+
   return {
     display,
     chosenLevel,
-    isSpeedrun,
+    panelIsVisible,
     triggerHome,
     triggerGame,
     triggerArcadeMode,
     selectedLevel,
     choseLevel,
+    openPanel,
+    closePanel
   };
 };

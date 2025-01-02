@@ -1,4 +1,4 @@
-import { BoxGeometry, MeshPhongMaterial, Mesh, Box3 } from "three";
+import { BoxGeometry, MeshPhongMaterial, Mesh, Box3, PointLight, } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
 
@@ -25,11 +25,11 @@ export default class Environment {
   }
 
   createBlock(xPos: number, zPos: number) {
+
     const box = new BoxGeometry(1, 2, 1);
     const material = new MeshPhongMaterial({
       color: 0xffffff,
     });
-
     const mesh = new Mesh(box, material);
     mesh.position.set(xPos, 0, zPos);
     mesh.userData.typeOfBlock = "obstacle";
