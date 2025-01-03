@@ -11,7 +11,7 @@
         </div>
         <div class="Panel__menu__items__content">
           <div><p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles</p></div>
-          <div><p>Mettre les différents controls</p></div>
+          <div><p>ZQSD & F pour ouvrir le menu</p></div>
         </div>
       </div>
       <button @click="$emit('closePanelMenu')">Jouer</button>
@@ -199,6 +199,10 @@ button:hover {
     opacity: 1;
   }
 
+  50% {
+    opacity: 0;
+  }
+  
   100% {
     opacity: 0;
   }
