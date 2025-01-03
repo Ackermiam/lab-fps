@@ -4,25 +4,55 @@
     :class="panelIsVisible ? 'Panel--activate enter' : 'leave'"
   >
     <div class="Panel__menu">
-      <div class="Panel__menu__items" :class="panelIsVisible ? '': 'contentLeave'">
+      <div
+        class="Panel__menu__items"
+        :class="panelIsVisible ? '' : 'contentLeave'"
+      >
         <div class="Panel__menu__items__subjects">
-          <h5>Mission</h5>
-          <h5>Controles</h5>
+          <button @click="showMission()"><h5>Mission</h5></button>
+          <button @click="showControls()"><h5>Controles</h5></button>
         </div>
         <div class="Panel__menu__items__content">
-          <div><p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles</p></div>
-          <div><p>ZQSD & F pour ouvrir le menu</p></div>
+          <div v-if="mission">
+            <p>
+              Copilote.. Co... Copilote ? <br />
+              Copilote ? <br />
+              Vous m'entendez ? <br />
+              On s'est écrasés ici dans ce.. ce monde étrange <br />
+              Nous devons sortir d'ici.. et.. au plus vite !
+            </p>
+            <p>
+              Vous avez 2 minutes pour sortir de cet endroit. Au clic sur le
+              bouton <strong>Jouer</strong> le chronomètre se déclenchera.
+              <br />
+              Bonne chance !
+            </p>
+          </div>
+          <div v-if="controls"><p>ZQSD & F pour ouvrir le menu</p></div>
         </div>
       </div>
-      <button @click="$emit('closePanelMenu')">Jouer</button>
+      <button @click="$emit('closePanelMenu')" class="PlayButton">Jouer</button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { settings } from "../composables/handleSettings";
 
 const { panelIsVisible } = settings();
+
+const mission = ref(true);
+const controls = ref(false);
+
+const showMission = () => {
+  mission.value = true;
+  controls.value = false;
+}
+const showControls = () => {
+  mission.value = false;
+  controls.value = true;
+}
 </script>
 
 <style scoped>
@@ -34,7 +64,6 @@ const { panelIsVisible } = settings();
   top: -100%;
   transform: translate(-50%, -50%);
   backdrop-filter: blur(100px);
-
 }
 
 .Panel--activate {
@@ -69,33 +98,47 @@ const { panelIsVisible } = settings();
   width: 60%;
 }
 .Panel__menu__items__subjects {
-  width: 20%;
   border-right: 2px solid white;
+  padding-right: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
 h5 {
   font-size: 2em;
-  margin-top: 0;
+  font-family: "Play";
+  margin: 0;
+  text-align: center;
+  padding: 10px 15px;
+  color: white;
 }
 
 p {
   margin-top: 0;
+  font-family: "Archivo";
+  font-size: 1.4em;
+
 }
 
 button {
+  border: 2px solid white;
   background: none;
-  border: 1px solid white;
-  padding: 10px 15px;
-  color: white;
   cursor: pointer;
   border-radius: 6px;
   transition: all 0.3s;
-  margin: 25px;
+  margin-bottom: 50px;
 }
 
 button:hover {
   border-radius: 0px;
 }
+
+.PlayButton {
+  padding: 10px 15px;
+  color: white;
+  margin: 25px;
+}
+
 
 .enter {
   animation: animateEnter 1.5s ease-out;
@@ -106,7 +149,7 @@ button:hover {
 }
 
 .contentLeave {
-  animation: contentLeave .5s ease;
+  animation: contentLeave 0.5s ease;
 }
 
 @keyframes animate {
@@ -202,7 +245,7 @@ button:hover {
   50% {
     opacity: 0;
   }
-  
+
   100% {
     opacity: 0;
   }
