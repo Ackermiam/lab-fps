@@ -14,7 +14,7 @@
         </div>
         <div class="Panel__menu__items__content">
           <div v-if="mission" class="Content--mission">
-            <p style="border-left: 2px solid white; padding-left: 15px;">
+            <p style="border-left: 2px solid white; padding-left: 15px">
               Copilote.. Co... Copilote ? <br />
               Copilote ? <br />
               Vous m'entendez ? <br />
@@ -59,7 +59,14 @@
           </div>
         </div>
       </div>
-      <button @click="$emit('closePanelMenu')" class="PlayButton">Jouer</button>
+      <div>
+        <button v-if="displayBeginMenu" @click="$emit('closePanelMenu')" class="PlayButton">
+          Jouer
+        </button>
+        <button v-if="displayMenu" @click="$emit('closePanelRedoMenu')" class="PlayButton">
+          Recommencer
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -68,7 +75,7 @@
 import { ref } from "vue";
 import { settings } from "../composables/handleSettings";
 
-const { panelIsVisible } = settings();
+const { panelIsVisible, displayMenu, displayBeginMenu } = settings();
 
 const mission = ref(true);
 const controls = ref(false);
@@ -188,7 +195,7 @@ const showControls = () => {
 h5 {
   font-size: 2em;
   font-family: "Play";
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   margin: 0;
   text-align: center;
   padding: 10px 15px;
@@ -218,9 +225,9 @@ button:hover {
   padding: 15px 20px;
   color: white;
   margin: 25px;
-  font-family: 'Play';
+  font-family: "Play";
   font-size: 1.4em;
-  letter-spacing: .15em;
+  letter-spacing: 0.15em;
 }
 
 .enter {
@@ -238,35 +245,27 @@ button:hover {
 @keyframes animate {
   0% {
     box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
-
   }
   10% {
     box-shadow: 0px 0px 12px rgba(0, 238, 255, 0.9);
-
   }
   15% {
     box-shadow: 0px 0px 8px rgba(0, 238, 255, 0.5);
-
   }
   20% {
     box-shadow: 0px 0px 10px rgba(0, 238, 255, 0.8);
-
   }
   25% {
     box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
-
   }
   40% {
     box-shadow: 0px 0px 14px rgba(0, 238, 255, 1);
-
   }
   50% {
     box-shadow: 0px 0px 7px rgba(0, 238, 255, 0.4);
-
   }
   75% {
     box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
-
   }
   100% {
     box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);

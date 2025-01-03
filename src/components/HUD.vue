@@ -5,6 +5,7 @@
   >
     <div class="HUD__boussole">
       <p class="HUD__boussole--North">N</p>
+      <p class="HUD__boussole--North--point">^</p>
       <p class="HUD__boussole--South">S</p>
       <p class="HUD__boussole--West">O</p>
       <p class="HUD__boussole--East">E</p>
@@ -17,7 +18,7 @@
 import { ref, computed, onMounted } from "vue";
 import { settings } from "../composables/handleSettings";
 
-const { panelIsVisible, stopEvent } = settings();
+const { panelIsVisible, stopEvent, openPanel, redoGame } = settings();
 
 const timeRemaining = ref(120);
 
@@ -32,8 +33,11 @@ onMounted(() => {
     if (timeRemaining.value > 0) {
       if (!panelIsVisible.value) timeRemaining.value--;
     } else {
-      clearInterval(timerInterval);
+      //clearInterval(timerInterval);
       window.dispatchEvent(stopEvent);
+      redoGame();
+      openPanel();
+      timeRemaining.value = 10;
     }
   }, 1000);
 });
@@ -90,6 +94,10 @@ p {
 
 .HUD__boussole--North {
   top: -35px;
+  left: 46%;
+}
+.HUD__boussole--North--point {
+  top: 0px;
   left: 46%;
 }
 

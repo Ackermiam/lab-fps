@@ -6,7 +6,21 @@ const chosenLevel = ref(0);
 const panelIsVisible = ref(true);
 const stopEvent = new CustomEvent('loseGame', {detail: 'lose'})
 
+//MENU
+const displayMenu = ref(false);
+const displayBeginMenu = ref(true);
+
 export const settings = () => {
+  const beginGame = () => {
+    displayBeginMenu.value = true;
+    displayMenu.value = false;
+  }
+
+  const redoGame = () => {
+    displayBeginMenu.value = false;
+    displayMenu.value = true;
+  }
+
   const choseLevel = () => {
     const random = Math.floor(Math.random() * layers.length);
     return random;
@@ -42,12 +56,16 @@ export const settings = () => {
     chosenLevel,
     panelIsVisible,
     stopEvent,
+    displayMenu,
+    displayBeginMenu,
     triggerHome,
     triggerGame,
     triggerArcadeMode,
     selectedLevel,
     choseLevel,
     openPanel,
-    closePanel
+    closePanel,
+    beginGame,
+    redoGame
   };
 };

@@ -1,7 +1,7 @@
 <template>
   <section class="Home">
     <div ref="scene" class="Scene"></div>
-    <Panel @closePanelMenu="closeMenu()" />
+    <Panel @closePanelMenu="closeMenu()" @closePanelRedoMenu="closeRedoMenu()"/>
     <HUD />
   </section>
 </template>
@@ -13,13 +13,22 @@ import { settings } from "../composables/handleSettings";
 import Panel from "./Panel.vue";
 import HUD from "./HUD.vue"
 
-const { closePanel, openPanel, panelIsVisible } = settings();
+const { closePanel, openPanel, panelIsVisible, redoGame, beginGame } = settings();
 
 let engine: Engine;
 
 const scene = ref();
+
 const closeMenu = () => {
   closePanel();
+  beginGame();
+  engine.enablePointerLock();
+};
+
+const closeRedoMenu = () => {
+  closePanel();
+  beginGame();
+  engine.restart(1);
   engine.enablePointerLock();
 };
 

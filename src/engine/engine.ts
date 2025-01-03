@@ -162,6 +162,11 @@ export class Engine {
 
     window.addEventListener("finishLevel", () => {
       this.stop();
+      this.disablePointerLock();
+    });
+    window.addEventListener("loseGame", () => {
+      this.stop();
+      this.disablePointerLock();
     });
   }
 }
