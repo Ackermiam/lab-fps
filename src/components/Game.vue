@@ -1,18 +1,7 @@
 <template>
   <section class="Home">
     <div ref="scene" class="Scene"></div>
-    <Panel>
-      <div class="PanelGame">
-        <button
-          @click="
-            engine.enablePointerLock();
-            closePanel();
-          "
-        >
-          Jouer
-        </button>
-      </div>
-    </Panel>
+    <Panel @closePanelMenu="closeMenu()" />
   </section>
 </template>
 
@@ -27,6 +16,10 @@ const { closePanel, openPanel } = settings();
 let engine: Engine;
 
 const scene = ref();
+const closeMenu = () => {
+  closePanel();
+  engine.enablePointerLock();
+};
 
 onMounted(() => {
   engine = new Engine(scene.value);
@@ -47,26 +40,5 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-}
-
-.PanelGame {
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-button {
-  background: none;
-  border: 1px solid white;
-  padding: 10px 15px;
-  color: white;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.3s;
-}
-
-button:hover {
-  border-radius: 0px;
 }
 </style>
