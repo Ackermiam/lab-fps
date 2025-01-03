@@ -2,6 +2,7 @@
   <section class="Home">
     <div ref="scene" class="Scene"></div>
     <Panel @closePanelMenu="closeMenu()" />
+    <HUD />
   </section>
 </template>
 
@@ -10,8 +11,9 @@ import { ref, onMounted, watch } from "vue";
 import { Engine } from "../engine/engine";
 import { settings } from "../composables/handleSettings";
 import Panel from "./Panel.vue";
+import HUD from "./HUD.vue"
 
-const { closePanel, openPanel } = settings();
+const { closePanel, openPanel, panelIsVisible } = settings();
 
 let engine: Engine;
 

@@ -13,22 +13,50 @@
           <button @click="showControls()"><h5>Controles</h5></button>
         </div>
         <div class="Panel__menu__items__content">
-          <div v-if="mission">
-            <p>
+          <div v-if="mission" class="Content--mission">
+            <p style="border-left: 2px solid white; padding-left: 15px;">
               Copilote.. Co... Copilote ? <br />
               Copilote ? <br />
               Vous m'entendez ? <br />
               On s'est écrasés ici dans ce.. ce monde étrange <br />
-              Nous devons sortir d'ici.. et.. au plus vite !
+              Nous devons sortir de là.. et.. au plus vite !
             </p>
-            <p>
+            <p class="Content--mission__instructions">
               Vous avez 2 minutes pour sortir de cet endroit. Au clic sur le
-              bouton <strong>Jouer</strong> le chronomètre se déclenchera.
+              bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
               <br />
               Bonne chance !
             </p>
           </div>
-          <div v-if="controls"><p>ZQSD & F pour ouvrir le menu</p></div>
+          <div v-if="controls" class="Content--controls">
+            <div class="Content--controls__layout">
+              <div class="Control">
+                <p class="Key">Z</p>
+                <p>Avancer</p>
+              </div>
+
+              <div class="Control--group">
+                <div class="Control">
+                  <p class="Key">Q</p>
+                  <p>Gauche</p>
+                </div>
+                <div class="Control">
+                  <p class="Key">S</p>
+                  <p>Reculer</p>
+                </div>
+                <div class="Control">
+                  <p class="Key">D</p>
+                  <p>Droite</p>
+                </div>
+              </div>
+            </div>
+            <div class="Control--menu">
+              <div class="Control">
+                <p class="Key">F</p>
+                <p>Menu</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <button @click="$emit('closePanelMenu')" class="PlayButton">Jouer</button>
@@ -48,11 +76,11 @@ const controls = ref(false);
 const showMission = () => {
   mission.value = true;
   controls.value = false;
-}
+};
 const showControls = () => {
   mission.value = false;
   controls.value = true;
-}
+};
 </script>
 
 <style scoped>
@@ -63,7 +91,7 @@ const showControls = () => {
   left: 50%;
   top: -100%;
   transform: translate(-50%, -50%);
-  backdrop-filter: blur(100px);
+  backdrop-filter: blur(150px);
 }
 
 .Panel--activate {
@@ -75,8 +103,8 @@ const showControls = () => {
   width: 100%;
   border: 4px solid white;
   border-radius: 8px;
-  animation: animate 6s infinite;
-  filter: drop-shadow(0px 0px 10px #f700ff);
+  animation: animate 3s infinite;
+  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -97,6 +125,7 @@ const showControls = () => {
 .Panel__menu__items__content {
   width: 60%;
 }
+
 .Panel__menu__items__subjects {
   border-right: 2px solid white;
   padding-right: 25px;
@@ -104,9 +133,62 @@ const showControls = () => {
   flex-direction: column;
 }
 
+.Content--mission {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Content--mission__instructions {
+  border: 2px solid white;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.Content--controls {
+  display: flex;
+  align-items: end;
+}
+
+.Content--controls__layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-right: 20px;
+}
+
+.Control {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.Control--group {
+  display: flex;
+  align-items: center;
+}
+
+.Control--menu {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.Key {
+  border: 2px solid white;
+  width: 60px;
+  height: 45px;
+  margin: 0;
+  padding-top: 10px;
+}
+
 h5 {
   font-size: 2em;
   font-family: "Play";
+  letter-spacing: .1em;
   margin: 0;
   text-align: center;
   padding: 10px 15px;
@@ -117,7 +199,6 @@ p {
   margin-top: 0;
   font-family: "Archivo";
   font-size: 1.4em;
-
 }
 
 button {
@@ -134,11 +215,13 @@ button:hover {
 }
 
 .PlayButton {
-  padding: 10px 15px;
+  padding: 15px 20px;
   color: white;
   margin: 25px;
+  font-family: 'Play';
+  font-size: 1.4em;
+  letter-spacing: .15em;
 }
-
 
 .enter {
   animation: animateEnter 1.5s ease-out;
@@ -154,19 +237,39 @@ button:hover {
 
 @keyframes animate {
   0% {
-    filter: drop-shadow(0px 0px 20px #f700ff) drop-shadow(0px 0px 40px #f700ff);
+    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
+
+  }
+  10% {
+    box-shadow: 0px 0px 12px rgba(0, 238, 255, 0.9);
+
+  }
+  15% {
+    box-shadow: 0px 0px 8px rgba(0, 238, 255, 0.5);
+
+  }
+  20% {
+    box-shadow: 0px 0px 10px rgba(0, 238, 255, 0.8);
+
   }
   25% {
-    filter: drop-shadow(0px 0px 20px #00eeff) drop-shadow(0px 0px 40px #00eeff);
+    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
+
+  }
+  40% {
+    box-shadow: 0px 0px 14px rgba(0, 238, 255, 1);
+
   }
   50% {
-    filter: drop-shadow(0px 0px 30px #f700ff) drop-shadow(0px 0px 60px #f700ff);
+    box-shadow: 0px 0px 7px rgba(0, 238, 255, 0.4);
+
   }
   75% {
-    filter: drop-shadow(0px 0px 30px #00eeff) drop-shadow(0px 0px 60px #00eeff);
+    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
+
   }
   100% {
-    filter: drop-shadow(0px 0px 20px #f700ff) drop-shadow(0px 0px 40px #f700ff);
+    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
   }
 }
 

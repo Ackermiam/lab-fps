@@ -4,6 +4,7 @@ import { layers } from "../engine/data/layers/layers";
 const display = ref("Home");
 const chosenLevel = ref(0);
 const panelIsVisible = ref(true);
+const stopEvent = new CustomEvent('loseGame', {detail: 'lose'})
 
 export const settings = () => {
   const choseLevel = () => {
@@ -40,6 +41,7 @@ export const settings = () => {
     display,
     chosenLevel,
     panelIsVisible,
+    stopEvent,
     triggerHome,
     triggerGame,
     triggerArcadeMode,
