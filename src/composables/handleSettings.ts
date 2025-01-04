@@ -10,7 +10,14 @@ const stopEvent = new CustomEvent('loseGame', {detail: 'lose'})
 const displayMenu = ref(false);
 const displayBeginMenu = ref(true);
 
+//INTRO
+const displayIntro = ref(true);
+
 export const settings = () => {
+  const manageIntro = () => {
+    displayIntro.value = !displayIntro.value;
+  }
+
   const beginGame = () => {
     displayBeginMenu.value = true;
     displayMenu.value = false;
@@ -58,6 +65,7 @@ export const settings = () => {
     stopEvent,
     displayMenu,
     displayBeginMenu,
+    displayIntro,
     triggerHome,
     triggerGame,
     triggerArcadeMode,
@@ -66,6 +74,7 @@ export const settings = () => {
     openPanel,
     closePanel,
     beginGame,
-    redoGame
+    redoGame,
+    manageIntro
   };
 };

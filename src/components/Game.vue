@@ -74,10 +74,13 @@ onMounted(() => {
     z-index: 10;
   }
 
+  99% {
+    z-index: -1;
+  }
+
   100% {
     height: 2000px;
     width: 2000px;
-    z-index: 10;
   }
 }
 </style>

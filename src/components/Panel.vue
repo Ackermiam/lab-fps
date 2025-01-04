@@ -53,7 +53,7 @@
             <div class="Control--menu">
               <div class="Control">
                 <p class="Key">F</p>
-                <p>Menu</p>
+                <p>Pause</p>
               </div>
             </div>
           </div>

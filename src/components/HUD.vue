@@ -11,6 +11,7 @@
       <p class="HUD__boussole--East">E</p>
     </div>
     <div class="HUD__timer">{{ formattedTime }}</div>
+    <div class="HUD__pointer"></div>
   </section>
 </template>
 
@@ -48,6 +49,7 @@ onMounted(() => {
   position: absolute;
   top: -100%;
   width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   align-items: start;
@@ -56,7 +58,8 @@ onMounted(() => {
 }
 
 .HUD--activate {
-  top: 50px;
+  top: 0px;
+  padding-top: 50px;
 }
 
 .HUD__boussole {
@@ -116,6 +119,18 @@ p {
   right: -35px;
 }
 
+.HUD__pointer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 5px;
+  width: 5px;
+  background: rgba(146, 248, 255, 0.9);
+  transform: translateY(-50%);
+  animation: displayPointer 2s ease;
+  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9)) drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
+}
+
 .enter {
   animation: animateEnter 1.5s ease-out;
 }
@@ -171,6 +186,16 @@ p {
 
   100% {
     top: -100%;
+  }
+}
+
+@keyframes displayPointer {
+  0% {
+    z-index: -100;
+  }
+
+  100% {
+    z-index: 1;
   }
 }
 
