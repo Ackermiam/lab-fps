@@ -19,9 +19,7 @@
 import { ref, computed, onMounted } from "vue";
 import { settings } from "../composables/handleSettings";
 
-const { panelIsVisible, stopEvent, openPanel, redoGame } = settings();
-
-const timeRemaining = ref(120);
+const { panelIsVisible, stopEvent, timeRemaining, openPanel, redoGame } = settings();
 
 const formattedTime = computed(() => {
   const minutes = Math.floor(timeRemaining.value / 60);
@@ -38,7 +36,7 @@ onMounted(() => {
       window.dispatchEvent(stopEvent);
       redoGame();
       openPanel();
-      timeRemaining.value = 120;
+      timeRemaining.value = 20;
     }
   }, 1000);
 });

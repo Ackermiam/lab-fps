@@ -2,6 +2,7 @@
   <section class="Home">
     <div ref="scene" class="Scene"></div>
     <Panel @closePanelMenu="closeMenu()" @closePanelRedoMenu="closeRedoMenu()"/>
+    <Endgame v-if="endgameIsVisible"/>
     <HUD />
     <div class="IntroGame"></div>
   </section>
@@ -13,8 +14,9 @@ import { Engine } from "../engine/engine";
 import { settings } from "../composables/handleSettings";
 import Panel from "./Panel.vue";
 import HUD from "./HUD.vue"
+import Endgame from "./Endgame.vue"
 
-const { closePanel, openPanel, panelIsVisible, redoGame, beginGame, choseLevel } = settings();
+const { closePanel, openPanel, panelIsVisible, redoGame, beginGame, choseLevel, endgameIsVisible } = settings();
 
 let engine: Engine;
 

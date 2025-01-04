@@ -14,7 +14,7 @@ import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const { chosenLevel } = settings();
+const { chosenLevel, manageEndgame, redoGame, beginGame, restartTime, manageWin } = settings();
 
 export class Engine {
   scene: Scene;
@@ -99,6 +99,8 @@ export class Engine {
   restart(indexMap: number) {
     this.layer = indexMap;
     this.scene = new Scene();
+    restartTime();
+    beginGame();
     this.setup();
   }
 
@@ -136,6 +138,12 @@ export class Engine {
     this.camera.rotation.y -= horizontalMovement * this.sensitivity;
   }
 
+  showEndGame(state: string) {
+    state === 'win' ? manageWin(true): manageWin(false);
+    redoGame();
+    manageEndgame();
+  }
+
   enablePointerLock() {
     document.body.requestPointerLock();
 
@@ -163,10 +171,12 @@ export class Engine {
     window.addEventListener("finishLevel", () => {
       this.stop();
       this.disablePointerLock();
+      this.showEndGame('win');
     });
     window.addEventListener("loseGame", () => {
       this.stop();
       this.disablePointerLock();
+      this.showEndGame('lose');
     });
   }
 }
