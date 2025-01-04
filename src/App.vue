@@ -10,6 +10,6 @@ import Game from "./components/Game.vue";
 
 <style scoped>
 .Home {
-  overflow-x: hidden;
+  overflow: hidden;
 }
 </style>

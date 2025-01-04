@@ -25,9 +25,11 @@ export default class Character {
   collideGround: boolean;
   canMove: boolean;
   accelerate: number;
+  gun: any;
 
   constructor(engine: Engine) {
     this.collideGround = true;
+    this.gun = 
     this.canMove = false;
     this.speed = 1.5;
     this.mesh = new Mesh();

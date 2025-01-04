@@ -10,7 +10,7 @@
       >
         <div class="Panel__menu__items__subjects">
           <button @click="showMission()"><h5>Mission</h5></button>
-          <button @click="showControls()"><h5>Controles</h5></button>
+          <button @click="showControls()"><h5>Controls</h5></button>
         </div>
         <div class="Panel__menu__items__content">
           <div v-if="mission" class="Content--mission">

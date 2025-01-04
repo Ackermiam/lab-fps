@@ -37,7 +37,7 @@ onMounted(() => {
       window.dispatchEvent(stopEvent);
       redoGame();
       openPanel();
-      timeRemaining.value = 10;
+      timeRemaining.value = 120;
     }
   }, 1000);
 });
