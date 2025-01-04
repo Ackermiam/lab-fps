@@ -16,7 +16,7 @@ const displayBeginMenu = ref(true);
 const displayIntro = ref(true);
 
 //TEMPS RESTANT
-const timeRemaining = ref(20);
+const timeRemaining = ref(121);
 
 export const settings = () => {
   const manageWin = (state: boolean) => {
@@ -24,7 +24,7 @@ export const settings = () => {
   }
 
   const restartTime = () => {
-    timeRemaining.value = 120;
+    timeRemaining.value = 121;
   };
 
   const manageEndgame = () => {

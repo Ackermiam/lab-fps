@@ -19,7 +19,7 @@
 import { ref, computed, onMounted } from "vue";
 import { settings } from "../composables/handleSettings";
 
-const { panelIsVisible, stopEvent, timeRemaining, openPanel, redoGame } = settings();
+const { panelIsVisible, stopEvent, timeRemaining, openPanel, redoGame, restartTime } = settings();
 
 const formattedTime = computed(() => {
   const minutes = Math.floor(timeRemaining.value / 60);
@@ -36,7 +36,7 @@ onMounted(() => {
       window.dispatchEvent(stopEvent);
       redoGame();
       openPanel();
-      timeRemaining.value = 20;
+      restartTime();
     }
   }, 1000);
 });
@@ -130,91 +130,10 @@ p {
 }
 
 .enter {
-  animation: animateEnter 1.5s ease-out;
+  animation: animateEnterTwo 1.5s ease-out;
 }
 
 .leave {
-  animation: animateLeave 2s ease;
-}
-
-@keyframes animate {
-  0% {
-    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
-  }
-  10% {
-    box-shadow: 0px 0px 12px rgba(0, 238, 255, 0.9);
-  }
-  15% {
-    box-shadow: 0px 0px 8px rgba(0, 238, 255, 0.5);
-  }
-  20% {
-    box-shadow: 0px 0px 10px rgba(0, 238, 255, 0.8);
-  }
-  25% {
-    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
-  }
-  40% {
-    box-shadow: 0px 0px 14px rgba(0, 238, 255, 1);
-  }
-  50% {
-    box-shadow: 0px 0px 7px rgba(0, 238, 255, 0.4);
-  }
-  75% {
-    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
-  }
-  100% {
-    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
-  }
-}
-
-@keyframes animateEnter {
-  0% {
-    top: -100%;
-  }
-
-  100% {
-    top: 50px;
-  }
-}
-
-@keyframes animateLeave {
-  0% {
-    top: 50px;
-  }
-
-  100% {
-    top: -100%;
-  }
-}
-
-@keyframes displayPointer {
-  0% {
-    z-index: -100;
-  }
-
-  100% {
-    z-index: 1;
-  }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotateZ(2deg)
-  }
-  10% {
-    transform: rotateZ(50deg)
-  }
-  20% {
-    transform: rotateZ(8deg)
-  }
-  50% {
-    transform: rotateZ(42deg)
-  }
-  70% {
-    transform: rotateZ(180deg)
-  }
-  100% {
-    transform: rotateZ(2deg)
-  }
+  animation: animateLeaveTwo 2s ease;
 }
 </style>

@@ -29,3 +29,186 @@ body {
   overflow: hidden;
   box-sizing: border-box;
 }
+
+@keyframes animate {
+  0% {
+    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
+  }
+  10% {
+    box-shadow: 0px 0px 12px rgba(0, 238, 255, 0.9);
+  }
+  15% {
+    box-shadow: 0px 0px 8px rgba(0, 238, 255, 0.5);
+  }
+  20% {
+    box-shadow: 0px 0px 10px rgba(0, 238, 255, 0.8);
+  }
+  25% {
+    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
+  }
+  40% {
+    box-shadow: 0px 0px 14px rgba(0, 238, 255, 1);
+  }
+  50% {
+    box-shadow: 0px 0px 7px rgba(0, 238, 255, 0.4);
+  }
+  75% {
+    box-shadow: 0px 0px 6px rgba(0, 238, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);
+  }
+}
+
+@keyframes animateEnter {
+  0% {
+    top: -100%;
+    width: 0vw;
+  }
+
+  25% {
+    top: 40%;
+    width: 0vw;
+  }
+
+  50% {
+    top: 50%;
+    width: 0vw;
+  }
+
+  75% {
+    width: 0vw;
+  }
+
+  100% {
+    width: 80vw;
+  }
+}
+
+@keyframes animateLeave {
+  0% {
+    width: 80vw;
+    top: 50%;
+  }
+
+  10% {
+    width: 80vw;
+    top: 50%;
+  }
+
+  25% {
+    width: 0vw;
+    top: 50%;
+  }
+
+  50% {
+    top: 50%;
+    width: 0vw;
+  }
+
+  75% {
+    top: 40%;
+    width: 0vw;
+  }
+
+  100% {
+    width: 0vw;
+    top: -100%;
+  }
+}
+
+@keyframes display {
+  0% {
+    visibility: none;
+  }
+
+  100% {
+    visibility: visible;
+  }
+}
+
+@keyframes contentLeave {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(2deg)
+  }
+  10% {
+    transform: rotateZ(50deg)
+  }
+  20% {
+    transform: rotateZ(8deg)
+  }
+  50% {
+    transform: rotateZ(42deg)
+  }
+  70% {
+    transform: rotateZ(180deg)
+  }
+  100% {
+    transform: rotateZ(2deg)
+  }
+}
+
+@keyframes antiRotate {
+  0% {
+    transform: rotateZ(5deg)
+  }
+  15% {
+    transform: rotateZ(120deg)
+  }
+  30% {
+    transform: rotateZ(90deg)
+  }
+  50% {
+    transform: rotateZ(20deg)
+  }
+  75% {
+    transform: rotateZ(45deg)
+  }
+  100% {
+    transform: rotateZ(5deg)
+  }
+}
+
+@keyframes animateEnterTwo {
+  0% {
+    top: -100%;
+  }
+
+  100% {
+    top: 50px;
+  }
+}
+
+@keyframes animateLeaveTwo {
+  0% {
+    top: 50px;
+  }
+
+  100% {
+    top: -100%;
+  }
+}
+
+@keyframes displayPointer {
+  0% {
+    z-index: -100;
+  }
+
+  100% {
+    z-index: 1;
+  }
+}
