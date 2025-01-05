@@ -8,6 +8,9 @@ La différence ? La vue est maintenant en première personne.
 
 ## Les principales fonctionnalités
 
+- Un système de collision
+- Un système de génération d'environnement
+- Déplacement de la caméra
 - Se déplacer avec **ZQSD**
 - Courir avec **shift**
 - Un HUD pour l'immersion
