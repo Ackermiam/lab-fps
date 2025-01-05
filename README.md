@@ -7,3 +7,8 @@ Doomo est une réinterprétation du projet `Labyrinthe` sorti quelques jours ava
 La différence ? La vue est maintenant en première personne.
 
 ## Les principales fonctionnalités
+
+- Se déplacer avec **ZQSD**
+- Courir avec **shift**
+- Un HUD pour l'immersion
+- Une UI renouvellée pour cette version du jeu
