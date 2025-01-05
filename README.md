@@ -1,6 +1,6 @@
 # DOOMO
 
-![Jeu](/presentation/prez.PNG)
+![Jeu](/presentation/doomgif.gif)
 
 ## Principe du jeu
 
