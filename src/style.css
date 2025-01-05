@@ -60,6 +60,53 @@ body {
   }
 }
 
+@keyframes animateGun {
+  0% {
+    filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.3));
+    bottom: -15px;
+  }
+  10% {
+    filter: drop-shadow(0px 0px 12px rgba(0, 238, 255, 0.9));
+    bottom: -20px;
+  }
+  20% {
+    filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.5));
+    bottom: -15px;
+  }
+  30% {
+    filter: drop-shadow(0px 0px 10px rgba(0, 238, 255, 0.8));
+    bottom: -20px;
+  }
+  40% {
+    filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.3));
+    bottom: -15px;
+  }
+  50% {
+    filter: drop-shadow(0px 0px 13px rgba(0, 238, 255, 0.3));
+    bottom: -20px;
+  }
+  60% {
+    filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.3));
+    bottom: -15px;
+  }
+  70% {
+    filter: drop-shadow(0px 0px 12px rgba(0, 238, 255, 1));
+    bottom: -20px;
+  }
+  80% {
+    filter: drop-shadow(0px 0px 7px rgba(0, 238, 255, 0.4));
+    bottom: -15px;
+  }
+  90% {
+    filter: drop-shadow(0px 0px 10px rgba(0, 238, 255, 0.3));
+    bottom: -20px;
+  }
+  100% {
+    filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.3));
+    bottom: -15px;
+  }
+}
+
 @keyframes animateEnter {
   0% {
     top: -100%;
@@ -200,6 +247,26 @@ body {
 
   100% {
     top: -100%;
+  }
+}
+
+@keyframes animateEnterGun {
+  0% {
+    bottom: -100%;
+  }
+
+  100% {
+    bottom: 0px;
+  }
+}
+
+@keyframes animateLeaveGun {
+  0% {
+    bottom: 0px;
+  }
+
+  100% {
+    bottom: -100%;
   }
 }
 

@@ -119,7 +119,7 @@ p {
 
 .HUD__pointer {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   height: 5px;
   width: 5px;

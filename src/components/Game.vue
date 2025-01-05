@@ -4,6 +4,7 @@
     <Panel @closePanelMenu="closeMenu()" @closePanelRedoMenu="closeRedoMenu()"/>
     <Endgame v-if="endgameIsVisible"/>
     <HUD />
+    <Gun />
     <div class="IntroGame"></div>
   </section>
 </template>
@@ -14,6 +15,7 @@ import { Engine } from "../engine/engine";
 import { settings } from "../composables/handleSettings";
 import Panel from "./Panel.vue";
 import HUD from "./HUD.vue"
+import Gun from "./Gun.vue"
 import Endgame from "./Endgame.vue"
 
 const { closePanel, openPanel, panelIsVisible, redoGame, beginGame, choseLevel, endgameIsVisible } = settings();
