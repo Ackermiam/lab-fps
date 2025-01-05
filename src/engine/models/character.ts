@@ -76,7 +76,6 @@ export default class Character {
   getEventMove() {
     window.addEventListener("keydown", (event) => {
       const key = event.key.toLowerCase();
-      console.log(key)
 
       if (key == "z") this.vecteur_mouvement.z = 1;
       if (key == "s") this.vecteur_mouvement.z = -1;

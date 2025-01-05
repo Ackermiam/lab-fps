@@ -25,6 +25,8 @@
               Vous avez 2 minutes pour sortir de cet endroit. Au clic sur le
               bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
               <br />
+              N'oubliez pas de vérifier dans <strong>"Controls"</strong> les controles du jeu !
+              <br />
               Bonne chance !
             </p>
           </div>
