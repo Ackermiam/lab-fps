@@ -29,6 +29,12 @@
             </p>
           </div>
           <div v-if="controls" class="Content--controls">
+            <div class="Control--menu">
+              <div class="Control">
+                <p class="Key Key--large">Shift</p>
+                <p>Courir</p>
+              </div>
+            </div>
             <div class="Content--controls__layout">
               <div class="Control">
                 <p class="Key">Z</p>
@@ -164,7 +170,7 @@ const showControls = () => {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-right: 20px;
+  margin: 0 20px;
 }
 
 .Control {
@@ -187,6 +193,14 @@ const showControls = () => {
 .Key {
   border: 2px solid white;
   width: 60px;
+  height: 45px;
+  margin: 0;
+  padding-top: 10px;
+}
+
+.Key--large {
+  border: 2px solid white;
+  width: 90px;
   height: 45px;
   margin: 0;
   padding-top: 10px;

@@ -10,9 +10,9 @@ import {
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
-//import { settings } from "../../composables/handleSettings";
+import { settings } from "../../composables/handleSettings";
 
-//const { display } = settings();
+const { panelIsVisible } = settings();
 
 export default class Character {
   mesh: Mesh;
@@ -29,7 +29,7 @@ export default class Character {
 
   constructor(engine: Engine) {
     this.collideGround = true;
-    this.gun = 
+    this.gun =
     this.canMove = false;
     this.speed = 1.5;
     this.mesh = new Mesh();
@@ -76,11 +76,13 @@ export default class Character {
   getEventMove() {
     window.addEventListener("keydown", (event) => {
       const key = event.key.toLowerCase();
+      console.log(key)
 
       if (key == "z") this.vecteur_mouvement.z = 1;
       if (key == "s") this.vecteur_mouvement.z = -1;
       if (key == "d") this.vecteur_mouvement.x = 1;
       if (key == "q") this.vecteur_mouvement.x = -1;
+      if (key == "shift") this.accelerate = 1.6;
     });
 
     window.addEventListener("keyup", (event) => {
@@ -90,6 +92,7 @@ export default class Character {
       if (key === "q") this.vecteur_mouvement.x = 0;
       if (key === "s") this.vecteur_mouvement.z = 0;
       if (key === "d") this.vecteur_mouvement.x = 0;
+      if (key == "shift") this.accelerate = 1;
     });
   }
 

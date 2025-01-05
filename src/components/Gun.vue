@@ -8,7 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { settings } from "../composables/handleSettings";
 
 const { panelIsVisible } = settings();
@@ -36,10 +35,10 @@ img {
 }
 
 .enter {
-  animation: animateEnterGun 1.5s ease-out;
+  animation: animateEnterGun 1s ease-out;
 }
 
 .leave {
-  animation: animateLeaveGun 2s ease;
+  animation: animateLeaveGun 1s ease;
 }
 </style>
