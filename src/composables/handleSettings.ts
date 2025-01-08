@@ -57,10 +57,8 @@ export const settings = () => {
   };
 
   const selectedLevel = (selected?: number) => {
-    const chosen = selected != undefined ? selected : choseLevel();
-    chosenLevel.value = chosen;
-  };
-
+    chosenLevel.value = selected != undefined ? selected : choseLevel();
+  }
   const triggerHome = () => {
     display.value = "Home";
   };

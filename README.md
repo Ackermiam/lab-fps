@@ -18,3 +18,9 @@ La différence ? La vue est maintenant en première personne.
 - Un HUD pour l'immersion
 - Une UI renouvellée pour cette version du jeu
 - Chargement de map aléatoire
+
+# Versions
+
+## 0.1.0
+
+- Now when you run, the FOV change

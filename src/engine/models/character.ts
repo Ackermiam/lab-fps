@@ -81,7 +81,12 @@ export default class Character {
       if (key == "s") this.vecteur_mouvement.z = -1;
       if (key == "d") this.vecteur_mouvement.x = 1;
       if (key == "q") this.vecteur_mouvement.x = -1;
-      if (key == "shift") this.accelerate = 1.6;
+      if (key == "shift") {
+        this.accelerate = 1.5
+        this.engine.fov.isChanging = true;
+        this.engine.fov.isAccelerate = true;
+        this.engine.fov.isDecelerate = false;
+      }
     });
 
     window.addEventListener("keyup", (event) => {
@@ -91,7 +96,12 @@ export default class Character {
       if (key === "q") this.vecteur_mouvement.x = 0;
       if (key === "s") this.vecteur_mouvement.z = 0;
       if (key === "d") this.vecteur_mouvement.x = 0;
-      if (key == "shift") this.accelerate = 1;
+      if (key == "shift") {
+        this.accelerate = 1
+        this.engine.fov.isChanging = true;
+        this.engine.fov.isAccelerate = false;
+        this.engine.fov.isDecelerate = true;
+      }
     });
   }
 

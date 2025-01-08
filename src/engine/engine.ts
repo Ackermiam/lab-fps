@@ -14,7 +14,14 @@ import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const { chosenLevel, manageEndgame, redoGame, beginGame, restartTime, manageWin } = settings();
+const {
+  chosenLevel,
+  manageEndgame,
+  redoGame,
+  beginGame,
+  restartTime,
+  manageWin,
+} = settings();
 
 export class Engine {
   scene: Scene;
@@ -35,6 +42,7 @@ export class Engine {
   clock: Clock;
   delta: number;
   sensitivity: number;
+  fov: { base: number; current: number; accel: number; isChanging: boolean; isAccelerate: boolean, isDecelerate: boolean};
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
@@ -42,7 +50,15 @@ export class Engine {
     this.mousePos = { x: 0, y: 0 };
     this.ref = ref;
     this.scene = new Scene();
-    this.camera = new PerspectiveCamera(80, width / height);
+    this.fov = {
+      base: 80,
+      current: 80,
+      accel: 100,
+      isChanging: false,
+      isAccelerate: false,
+      isDecelerate: false,
+    };
+    this.camera = new PerspectiveCamera(this.fov.base, width / height);
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 0);
     this.layer = chosenLevel.value;
@@ -79,6 +95,7 @@ export class Engine {
       this.tick();
       this.delta = this.clock.getDelta();
       //this.moveVision()
+      this.checkFov();
       this.tickChildren();
     });
   }
@@ -94,6 +111,24 @@ export class Engine {
     setTimeout(() => {
       this.character.canMove = true;
     }, 100);
+  }
+
+  changeFov(start, end) {
+    //console.log('fov changed')
+    this.fov.current = (1 - 0.1) * start + 0.1 * end;
+    this.camera.fov = this.fov.current;
+    this.camera.updateProjectionMatrix();
+  }
+
+  checkFov() {
+    if (this.fov.isChanging) {
+      if ( this.fov.isAccelerate ) {
+        this.changeFov(this.fov.current, this.fov.accel);
+      }
+      if ( this.fov.isDecelerate ) {
+        this.changeFov(this.fov.current, this.fov.base);
+      }
+    }
   }
 
   restart(indexMap: number) {
@@ -139,7 +174,7 @@ export class Engine {
   }
 
   showEndGame(state: string) {
-    state === 'win' ? manageWin(true): manageWin(false);
+    state === "win" ? manageWin(true) : manageWin(false);
     redoGame();
     manageEndgame();
   }
@@ -171,12 +206,12 @@ export class Engine {
     window.addEventListener("finishLevel", () => {
       this.stop();
       this.disablePointerLock();
-      this.showEndGame('win');
+      this.showEndGame("win");
     });
     window.addEventListener("loseGame", () => {
       this.stop();
       this.disablePointerLock();
-      this.showEndGame('lose');
+      this.showEndGame("lose");
     });
   }
 }

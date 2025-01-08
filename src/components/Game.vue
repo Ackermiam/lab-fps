@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted } from "vue";
 import { Engine } from "../engine/engine";
 import { settings } from "../composables/handleSettings";
 import Panel from "./Panel.vue";
@@ -18,7 +18,7 @@ import HUD from "./HUD.vue"
 import Gun from "./Gun.vue"
 import Endgame from "./Endgame.vue"
 
-const { closePanel, openPanel, panelIsVisible, redoGame, beginGame, choseLevel, endgameIsVisible } = settings();
+const { closePanel, openPanel, beginGame, choseLevel, endgameIsVisible } = settings();
 
 let engine: Engine;
 
