@@ -13,6 +13,9 @@ import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import GUI from "lil-gui";
+
+const gui = new GUI();
 
 const {
   chosenLevel,
@@ -66,11 +69,7 @@ export class Engine {
     this.delta = 0;
     this.sensitivity = 0.002;
     this.mouseDirection = new Vector3(0, 0, 1);
-
-    this.pixelRatio =
-      width < 900
-        ? Math.min(window.devicePixelRatio, 1.5)
-        : window.devicePixelRatio;
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
 
     this.renderer = new WebGLRenderer({
       antialias: true,
@@ -94,7 +93,6 @@ export class Engine {
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
       this.delta = this.clock.getDelta();
-      //this.moveVision()
       this.checkFov();
       this.tickChildren();
     });
@@ -114,7 +112,6 @@ export class Engine {
   }
 
   changeFov(start, end) {
-    //console.log('fov changed')
     this.fov.current = (1 - 0.1) * start + 0.1 * end;
     this.camera.fov = this.fov.current;
     this.camera.updateProjectionMatrix();
@@ -165,12 +162,17 @@ export class Engine {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    this.renderer.setPixelRatio(this.pixelRatio);
   }
 
   moveVision(event) {
     const horizontalMovement = event.movementX;
+    //const verticalMovement = event.movementY;
 
+    this.camera.rotation.reorder('YXZ');
     this.camera.rotation.y -= horizontalMovement * this.sensitivity;
+    //this.camera.rotation.x -= verticalMovement * (this.sensitivity/2);
   }
 
   showEndGame(state: string) {

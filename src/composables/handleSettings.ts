@@ -16,7 +16,7 @@ const displayBeginMenu = ref(true);
 const displayIntro = ref(true);
 
 //TEMPS RESTANT
-const timeRemaining = ref(121);
+const timeRemaining = ref(120);
 
 export const settings = () => {
   const manageWin = (state: boolean) => {
