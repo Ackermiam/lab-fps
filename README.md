@@ -21,6 +21,11 @@ La différence ? La vue est maintenant en première personne.
 
 # Versions
 
+## 0.1.1
+
+- Add textures on wall
+- Rework on the light
+
 ## 0.1.0
 
 - Now when you run, the FOV change
