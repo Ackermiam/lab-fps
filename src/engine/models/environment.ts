@@ -1,6 +1,16 @@
-import { BoxGeometry, MeshPhongMaterial, Mesh, Box3, PointLight, TextureLoader, SRGBColorSpace, LoadingManager } from "three";
+import {
+  BoxGeometry,
+  MeshPhongMaterial,
+  Mesh,
+  Box3,
+  TextureLoader,
+  SRGBColorSpace,
+  LoadingManager,
+} from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
+
+import walltexture from "../../assets/textures/texturewall.png"
 
 export default class Environment {
   mesh: any;
@@ -13,8 +23,10 @@ export default class Environment {
 
   constructor(engine: Engine) {
     this.loadingManager = new LoadingManager();
-    this.texture = new TextureLoader(this.loadingManager).load( "lab-fps/texturewall.png" );
-    this.texture.colorSpace = SRGBColorSpace
+    this.texture = new TextureLoader(this.loadingManager).load(
+      walltexture
+    );
+    this.texture.colorSpace = SRGBColorSpace;
     this.mesh = new Mesh();
     this.meshsPlacement = [];
     this.boundingBoxes = [];
@@ -34,7 +46,7 @@ export default class Environment {
     const material = new MeshPhongMaterial({
       map: this.texture,
       specular: 0x008a6e,
-      shininess: 3
+      shininess: 3,
     });
     const mesh = new Mesh(box, material);
     mesh.position.set(xPos, 0, zPos);
@@ -47,8 +59,8 @@ export default class Environment {
   createGround() {
     const box = new BoxGeometry(24, 0.5, 24);
     const material = new MeshPhongMaterial({
-      color: 0x888888,
-      specular: 0x00ffcc
+      color: 0x777777,
+      specular: 0x00ffcc,
     });
     const mesh = new Mesh(box, material);
     this.groundBoundingBox = new Box3().setFromObject(mesh);
