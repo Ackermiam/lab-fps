@@ -12,10 +12,8 @@ import {
 import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
-
-const gui = new GUI();
+//import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const {
   chosenLevel,
@@ -45,7 +43,14 @@ export class Engine {
   clock: Clock;
   delta: number;
   sensitivity: number;
-  fov: { base: number; current: number; accel: number; isChanging: boolean; isAccelerate: boolean, isDecelerate: boolean};
+  fov: {
+    base: number;
+    current: number;
+    accel: number;
+    isChanging: boolean;
+    isAccelerate: boolean;
+    isDecelerate: boolean;
+  };
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
@@ -54,14 +59,14 @@ export class Engine {
     this.ref = ref;
     this.scene = new Scene();
     this.fov = {
-      base: 80,
-      current: 80,
-      accel: 100,
+      base: 90,
+      current: 90,
+      accel: 110,
       isChanging: false,
       isAccelerate: false,
       isDecelerate: false,
     };
-    this.camera = new PerspectiveCamera(this.fov.base, width / height);
+    this.camera = new PerspectiveCamera(this.fov.base, width / height, 0.1, 10);
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 0);
     this.layer = chosenLevel.value;
@@ -69,7 +74,7 @@ export class Engine {
     this.delta = 0;
     this.sensitivity = 0.002;
     this.mouseDirection = new Vector3(0, 0, 1);
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
 
     this.renderer = new WebGLRenderer({
       antialias: true,
@@ -103,6 +108,7 @@ export class Engine {
     this.character = new Character(this);
     this.meshs.push(this.environment, this.character);
     this.addChildren();
+    this.setupGUI();
     this.setView();
     this.registerEventListeners();
     this.tick();
@@ -117,12 +123,46 @@ export class Engine {
     this.camera.updateProjectionMatrix();
   }
 
+  setupGUI() {
+    const gui = new GUI({ title: "Acker'tools", closeFolders: true });
+    const sceneGUI = gui.addFolder("Environment");
+    const cameraGUI = gui.addFolder("Camera");
+    const lightGUI = gui.addFolder("Light");
+    gui.hide();
+
+    cameraGUI
+      .add(this.camera, "fov", 20, 140, 0.5)
+      .name("FOV")
+      .onChange(() => {
+        this.camera.updateProjectionMatrix();
+      });
+
+    lightGUI
+      .add(this.character?.light, "distance", 0.1, 7, 0.05)
+      .name("distance light");
+
+    lightGUI
+      .addColor(this.character?.light, "color")
+      .name("color light")
+      .onChange((e) => {
+        console.log(e.getHexString());
+      });
+
+    sceneGUI
+      .add(this.environment?.mesh.children[0].material, "wireframe")
+      .name("ground wireframe");
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key == "t") gui.show(gui._hidden);
+    });
+  }
+
   checkFov() {
     if (this.fov.isChanging) {
-      if ( this.fov.isAccelerate ) {
+      if (this.fov.isAccelerate) {
         this.changeFov(this.fov.current, this.fov.accel);
       }
-      if ( this.fov.isDecelerate ) {
+      if (this.fov.isDecelerate) {
         this.changeFov(this.fov.current, this.fov.base);
       }
     }
@@ -162,7 +202,7 @@ export class Engine {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    this.pixelRatio = Math.min(window.devicePixelRatio, 2);
     this.renderer.setPixelRatio(this.pixelRatio);
   }
 
@@ -170,7 +210,7 @@ export class Engine {
     const horizontalMovement = event.movementX;
     //const verticalMovement = event.movementY;
 
-    this.camera.rotation.reorder('YXZ');
+    this.camera.rotation.reorder("YXZ");
     this.camera.rotation.y -= horizontalMovement * this.sensitivity;
     //this.camera.rotation.x -= verticalMovement * (this.sensitivity/2);
   }

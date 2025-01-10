@@ -10,9 +10,6 @@ import {
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
-import { settings } from "../../composables/handleSettings";
-
-const { panelIsVisible } = settings();
 
 export default class Character {
   mesh: Mesh;
@@ -39,8 +36,8 @@ export default class Character {
     this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
     this.accelerate = 1;
     this.boundingBox = new Box3();
-    this.light = new PointLight(0xff0000, 1, 3);
-    this.light.position.y = 1.6;
+    this.light = new PointLight(0xff7066, 1.5, 3);
+    this.light.position.y = .8;
     this.directionalLight = new DirectionalLight();
     this.mesh.add(this.light);
   }
