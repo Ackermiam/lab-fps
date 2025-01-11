@@ -211,11 +211,16 @@ export class Engine {
 
   moveVision(event) {
     const horizontalMovement = event.movementX;
-    //const verticalMovement = event.movementY;
+    const verticalMovement = event.movementY;
+    let lastXRotation = this.camera.rotation.x;
 
     this.camera.rotation.reorder("YXZ");
     this.camera.rotation.y -= horizontalMovement * this.sensitivity;
-    //this.camera.rotation.x -= verticalMovement * (this.sensitivity/2);
+    this.camera.rotation.x -= verticalMovement * (this.sensitivity / 2);
+    this.camera.rotation.x = Math.min(
+      Math.max(this.camera.rotation.x, -Math.PI * 0.5),
+      Math.PI * 0.5
+    );
   }
 
   showEndGame(state: string) {

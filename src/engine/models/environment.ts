@@ -35,7 +35,7 @@ export default class Environment {
       groundtexture
     );
     this.textureGround.repeat = new Vector2(24, 24)
-    console.log(this.textureGround.repeat)
+    //console.log(this.textureGround.repeat)
     this.texture.colorSpace = SRGBColorSpace;
     this.mesh = new Mesh();
     this.meshsPlacement = [];
