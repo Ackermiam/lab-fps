@@ -25,6 +25,7 @@ La différence ? La vue est maintenant en première personne.
 
 - Add textures on wall
 - Rework on the light
+- Rotate on X axis in min/max range
 
 ## 0.1.0
 
