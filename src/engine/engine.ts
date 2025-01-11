@@ -42,6 +42,7 @@ export class Engine {
   layer: number;
   clock: Clock;
   delta: number;
+  elapsedTime: number;
   sensitivity: number;
   fov: {
     base: number;
@@ -71,6 +72,7 @@ export class Engine {
     this.camera.lookAt(0, 0, 0);
     this.layer = chosenLevel.value;
     this.clock = new Clock();
+    this.elapsedTime = 0;
     this.delta = 0;
     this.sensitivity = 0.002;
     this.mouseDirection = new Vector3(0, 0, 1);
@@ -98,6 +100,7 @@ export class Engine {
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
       this.delta = this.clock.getDelta();
+      this.elapsedTime = this.clock.getElapsedTime();
       this.checkFov();
       this.tickChildren();
     });

@@ -45,6 +45,7 @@ export default class Character {
   tick() {
     if (this.collideGround) {
       this.updateCameraPosition();
+      this.moveLight();
       this.updateBoundingBox();
       this.checkGroundCollision();
       if (this.canMove) {
@@ -100,6 +101,10 @@ export default class Character {
         this.engine.fov.isDecelerate = true;
       }
     });
+  }
+
+  moveLight() {
+    this.light.position.y = Math.cos(this.engine.elapsedTime * 2) / 3 + 1
   }
 
   moveCharacter() {
