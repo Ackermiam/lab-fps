@@ -18,15 +18,13 @@ La différence ? La vue est maintenant en première personne.
 - Un HUD pour l'immersion
 - Une UI renouvellée pour cette version du jeu
 - Chargement de map aléatoire
+- Portail de téléportation
 
 ## Futures fonctionnalités/update ?
 
-- Créer des portails de TP
 - Tirer avec son arme
 - Murs destructible
 - Revoir le système de collision
-- Environnement vertical
-- Plateforme automatique pour monter et descendre
 
 # Versions
 
