@@ -19,13 +19,28 @@ La différence ? La vue est maintenant en première personne.
 - Une UI renouvellée pour cette version du jeu
 - Chargement de map aléatoire
 
+## Futures fonctionnalités/update ?
+
+- Créer des portails de TP
+- Tirer avec son arme
+- Murs destructible
+- Revoir le système de collision
+- Environnement vertical
+- Plateforme automatique pour monter et descendre
+
 # Versions
+
+## 0.2.0
+
+- Add TP portals
 
 ## 0.1.1
 
-- Add textures on wall
-- Rework on the light
+- Add textures on wall and ground
+- Add relief on textures
+- Improve lighting
 - Rotate on X axis in min/max range
+- Fix most of camera's collision issues
 
 ## 0.1.0
 

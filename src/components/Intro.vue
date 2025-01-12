@@ -17,7 +17,8 @@
     </div>
     <div>
       <h1>DOOMO</h1>
-      <button @click="manageIntro()">Commencer</button>
+      <button v-if="!load" @click="beginLoad()">Commencer</button>
+      <h2 v-if="load">Chargement ...</h2>
     </div>
   </section>
 </template>
@@ -27,6 +28,14 @@ import { ref } from "vue";
 import { settings } from "../composables/handleSettings";
 
 const { manageIntro } = settings();
+const load = ref(false);
+
+const beginLoad = () => {
+  load.value = true;
+  setTimeout(() => {
+    manageIntro()
+  }, 100)
+}
 </script>
 
 <style scoped>
@@ -44,6 +53,46 @@ h1 {
   font-family: 'Play';
   letter-spacing: 0.1em;
   font-size: 5em;
+  transition: all .3s;
+}
+
+h2 {
+  color: white;
+  margin: 0;
+  font-family: 'Play';
+  letter-spacing: 0.1em;
+  font-size: 2em;
+  animation: loading infinite 3s;
+}
+
+@keyframes loading {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0;
+  }
+  38% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 0;
+  }
+  68% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 button {

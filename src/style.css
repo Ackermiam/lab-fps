@@ -30,6 +30,18 @@ body {
   box-sizing: border-box;
 }
 
+@keyframes loading {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 10;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes animate {
   0% {
     box-shadow: 0px 0px 5px rgba(0, 238, 255, 0.3);

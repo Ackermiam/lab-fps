@@ -6,7 +6,6 @@ import {
   Vector3,
   PointLight,
   Matrix4,
-  DirectionalLight
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
@@ -18,16 +17,17 @@ export default class Character {
   engine: Engine;
   boundingBox: Box3;
   light: PointLight;
-  directionalLight: DirectionalLight;
+  secondLight: PointLight;
   collideGround: boolean;
   canMove: boolean;
   accelerate: number;
   gun: any;
+  isTp: boolean;
 
   constructor(engine: Engine) {
     this.collideGround = true;
-    this.gun =
-    this.canMove = false;
+    this.isTp = false;
+    this.gun = this.canMove = false;
     this.speed = 1.5;
     this.mesh = new Mesh();
     this.engine = engine;
@@ -36,10 +36,12 @@ export default class Character {
     this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
     this.accelerate = 1;
     this.boundingBox = new Box3();
-    this.light = new PointLight(0xff7066, 1.5, 5);
-    this.light.position.y = .8;
-    this.directionalLight = new DirectionalLight();
+    this.light = new PointLight(0xff615c, 1, 7);
+    this.secondLight = new PointLight(0xffffff, 2, 20);
+    this.light.position.y = 0.8;
+    this.secondLight.position.y = 1.5;
     this.mesh.add(this.light);
+    this.mesh.add(this.secondLight);
   }
 
   tick() {
@@ -58,8 +60,8 @@ export default class Character {
 
   createCharacter() {
     const { x, z } = layers[this.engine.layer].characterPlacement;
-    const box = new BoxGeometry(0.2, 0.2, 0.2);
-    const material = new MeshPhongMaterial({ visible: false});
+    const box = new BoxGeometry(0.4, 0.2, 0.4);
+    const material = new MeshPhongMaterial({ visible: false });
 
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "character";
@@ -80,7 +82,7 @@ export default class Character {
       if (key == "d") this.vecteur_mouvement.x = 1;
       if (key == "q") this.vecteur_mouvement.x = -1;
       if (key == "shift") {
-        this.accelerate = 1.5
+        this.accelerate = 1.5;
         this.engine.fov.isChanging = true;
         this.engine.fov.isAccelerate = true;
         this.engine.fov.isDecelerate = false;
@@ -95,7 +97,7 @@ export default class Character {
       if (key === "s") this.vecteur_mouvement.z = 0;
       if (key === "d") this.vecteur_mouvement.x = 0;
       if (key == "shift") {
-        this.accelerate = 1
+        this.accelerate = 1;
         this.engine.fov.isChanging = true;
         this.engine.fov.isAccelerate = false;
         this.engine.fov.isDecelerate = true;
@@ -104,7 +106,7 @@ export default class Character {
   }
 
   moveLight() {
-    this.light.position.y = Math.cos(this.engine.elapsedTime * 2) / 3 + 1
+    this.light.position.y = Math.cos(this.engine.elapsedTime * 2) / 3 + 0.5;
   }
 
   moveCharacter() {
@@ -123,29 +125,51 @@ export default class Character {
 
     if (this.vecteur_mouvement.z !== 0) {
       const moveZ = forwardVector.multiplyScalar(
-        this.vecteur_mouvement.z * this.speed * this.accelerate * this.engine.delta
+        this.vecteur_mouvement.z *
+          this.speed *
+          this.accelerate *
+          this.engine.delta
       );
       anticipatedPosition.add(moveZ);
     }
 
     if (this.vecteur_mouvement.x !== 0) {
       const moveX = rightVector.multiplyScalar(
-        this.vecteur_mouvement.x * this.speed * this.accelerate * this.engine.delta
+        this.vecteur_mouvement.x *
+          this.speed *
+          this.accelerate *
+          this.engine.delta
       );
       anticipatedPosition.add(moveX);
     }
 
-    if (!this.checkObstacleCollision(anticipatedPosition)) {
-      newPosition.copy(anticipatedPosition);
-    } else {
-      if (this.vecteur_mouvement.z !== 0)
-        this.correctPosition(anticipatedPosition, "z");
-      if (this.vecteur_mouvement.x !== 0)
-        this.correctPosition(anticipatedPosition, "x");
-    }
+    this.checkTPCollision();
 
-    newPosition.y = 0;
-    this.mesh.position.copy(newPosition);
+    if (this.isTp) {
+      this.teleportCharacter();
+    } else {
+      if (!this.checkObstacleCollision(anticipatedPosition)) {
+        newPosition.copy(anticipatedPosition);
+      } else {
+        if (this.vecteur_mouvement.z !== 0)
+          this.correctPosition(anticipatedPosition, "z");
+        if (this.vecteur_mouvement.x !== 0)
+          this.correctPosition(anticipatedPosition, "x");
+      }
+
+      newPosition.y = 0;
+      this.mesh.position.copy(newPosition);
+    }
+  }
+
+  checkGroundCollision() {
+    const characterBox = this.boundingBox;
+
+    if (characterBox.intersectsBox(this.engine.environment.groundBoundingBox)) {
+      this.collideGround = true;
+    } else {
+      this.collideGround = false;
+    }
   }
 
   checkObstacleCollision(position: Vector3): boolean {
@@ -157,17 +181,39 @@ export default class Character {
         return true;
       }
     }
+
     return false;
   }
 
-  checkGroundCollision() {
-    const characterBox = this.boundingBox;
+  checkTPCollision() {
+    const characterBox = this.boundingBox.clone();
 
-    if (characterBox.intersectsBox(this.engine.environment.groundBoundingBox)) {
-      this.collideGround = true;
-    } else {
-      this.collideGround = false;
+    for (const tpBox of this.engine.environment.tpBoundingBox) {
+      if (characterBox.intersectsBox(tpBox)) {
+        this.isTp = true;
+        return true;
+      }
     }
+    this.isTp = false;
+    return false;
+  }
+
+  teleportCharacter() {
+    const xPos = Math.floor(Math.random() * 24);
+    const zPos = Math.floor(Math.random() * 24);
+    const newPosition = new Vector3(xPos - 11.5, 0, zPos - 11.5);
+    let canITP = true;
+    //valider la position
+    this.engine.environment.meshsPlacement.forEach(position => {
+      console.log(zPos, xPos, position)
+      if (position.x === xPos && position.z === zPos) {
+        console.log('recommence la fonction')
+        canITP = false
+        this.teleportCharacter();
+      }
+    })
+
+    if(canITP === true) this.mesh.position.copy(newPosition);
   }
 
   correctPosition(position: Vector3, axis: "x" | "z") {

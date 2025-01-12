@@ -9,6 +9,7 @@ import {
   Vector3,
 } from "three";
 
+import Stats from "stats.js";
 import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
@@ -29,6 +30,7 @@ export class Engine {
   renderer: WebGLRenderer;
   camera: PerspectiveCamera;
   meshs: any[];
+  stats: Stats;
   ref: HTMLElement;
   pixelRatio: number;
   animationFrameId: number | null = null;
@@ -55,6 +57,9 @@ export class Engine {
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
+    this.stats = new Stats();
+    this.stats.showPanel(0);
+    document.body.appendChild(this.stats.dom);
     this.meshs = [];
     this.mousePos = { x: 0, y: 0 };
     this.ref = ref;
@@ -91,18 +96,21 @@ export class Engine {
     /*const controls = new OrbitControls( this.camera, this.renderer.domElement );
     controls.update();*/
     ref.appendChild(this.renderer.domElement);
+    this.stats.update();
     this.setup();
   }
 
   tick() {
     this.renderer.render(this.scene, this.camera);
+    this.stats.begin();
+    this.delta = this.clock.getDelta();
+    this.elapsedTime = this.clock.getElapsedTime();
+    this.checkFov();
+    this.tickChildren();
+    this.stats.end();
 
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
-      this.delta = this.clock.getDelta();
-      this.elapsedTime = this.clock.getElapsedTime();
-      this.checkFov();
-      this.tickChildren();
     });
   }
 
@@ -212,7 +220,6 @@ export class Engine {
   moveVision(event) {
     const horizontalMovement = event.movementX;
     const verticalMovement = event.movementY;
-    let lastXRotation = this.camera.rotation.x;
 
     this.camera.rotation.reorder("YXZ");
     this.camera.rotation.y -= horizontalMovement * this.sensitivity;
