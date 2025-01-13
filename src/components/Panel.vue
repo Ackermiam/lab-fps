@@ -11,6 +11,20 @@
         <div class="Panel__menu__items__subjects">
           <button @click="showMission()"><h5>Mission</h5></button>
           <button @click="showControls()"><h5>Controls</h5></button>
+          <button
+            v-if="displayBeginMenu"
+            @click="$emit('closePanelMenu')"
+            class="PlayButton"
+          >
+            Jouer
+          </button>
+          <button
+            v-if="displayMenu"
+            @click="$emit('closePanelRedoMenu')"
+            class="PlayButton"
+          >
+            Recommencer
+          </button>
         </div>
         <div class="Panel__menu__items__content">
           <div v-if="mission" class="Content--mission">
@@ -22,15 +36,17 @@
               Ça fait plusieurs heures que je suis seul.. <br />
               Je ne sais pas où je suis, ni comment je suis arrivé ici.. <br />
               Je me souviens juste des tornades... <br />
-              On a percuté une tornade.. <br>
-              Mais je suis sûr d'une chose, je dois sortir de là.. et.. au plus vite !
+              On a percuté une tornade.. <br />
+              Mais je suis sûr d'une chose, je dois sortir de là.. et.. au plus
+              vite !
             </p>
 
             <p class="Content--mission__instructions">
               Vous avez 5 minutes pour sortir de cet endroit. Au clic sur le
               bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
               <br />
-              N'oubliez pas de vérifier dans <strong>"Controls"</strong> les controles du jeu !
+              N'oubliez pas de vérifier dans <strong>"Controls"</strong> les
+              controles du jeu !
               <br />
               Bonne chance !
             </p>
@@ -71,14 +87,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <button v-if="displayBeginMenu" @click="$emit('closePanelMenu')" class="PlayButton">
-          Jouer
-        </button>
-        <button v-if="displayMenu" @click="$emit('closePanelRedoMenu')" class="PlayButton">
-          Recommencer
-        </button>
       </div>
     </div>
   </section>
@@ -245,7 +253,7 @@ button:hover {
 .PlayButton {
   padding: 15px 20px;
   color: white;
-  margin: 25px;
+  margin-bottom: 25px;
   font-family: "Play";
   font-size: 1.4em;
   letter-spacing: 0.15em;

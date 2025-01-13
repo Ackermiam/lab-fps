@@ -143,7 +143,7 @@ export default class Environment {
   }
 
   flashTPLight() {
-    this.engine.globalLight.intensity = 3;
+    this.engine.globalLight.intensity = 5;
   }
 
   stopFlashTPLight() {

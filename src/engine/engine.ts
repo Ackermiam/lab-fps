@@ -71,7 +71,7 @@ export class Engine {
       base: 85,
       current: 85,
       accel: 110,
-      portal: 170,
+      portal: 160,
       isChanging: false,
       isPortal: false,
       isAccelerate: false,
@@ -96,7 +96,7 @@ export class Engine {
     this.renderer.setPixelRatio(this.pixelRatio);
     const resizeCanvas = window.devicePixelRatio > 1;
     this.renderer.setSize(width, height, resizeCanvas);
-    this.globalLight = new AmbientLight( 0x581563, 0 ); // soft white light
+    this.globalLight = new AmbientLight( 0x581563, 0 );
     this.scene.add( this.globalLight );
     /*const controls = new OrbitControls( this.camera, this.renderer.domElement );
     controls.update();*/
@@ -113,7 +113,6 @@ export class Engine {
     this.checkFov();
     this.tickChildren();
     this.stats.end();
-    console.log(this.fov.current)
 
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
