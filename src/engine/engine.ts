@@ -50,7 +50,9 @@ export class Engine {
     base: number;
     current: number;
     accel: number;
+    portal: number;
     isChanging: boolean;
+    isPortal: boolean;
     isAccelerate: boolean;
     isDecelerate: boolean;
   };
@@ -65,10 +67,12 @@ export class Engine {
     this.ref = ref;
     this.scene = new Scene();
     this.fov = {
-      base: 90,
-      current: 90,
+      base: 85,
+      current: 85,
       accel: 110,
+      portal: 180,
       isChanging: false,
+      isPortal: false,
       isAccelerate: false,
       isDecelerate: false,
     };
@@ -128,11 +132,6 @@ export class Engine {
     }, 100);
   }
 
-  changeFov(start, end) {
-    this.fov.current = (1 - 0.1) * start + 0.1 * end;
-    this.camera.fov = this.fov.current;
-    this.camera.updateProjectionMatrix();
-  }
 
   setupGUI() {
     const gui = new GUI({ title: "Acker'tools", closeFolders: true });
@@ -142,30 +141,42 @@ export class Engine {
     gui.hide();
 
     cameraGUI
-      .add(this.camera, "fov", 20, 140, 0.5)
-      .name("FOV")
-      .onChange(() => {
-        this.camera.updateProjectionMatrix();
-      });
+    .add(this.camera, "fov", 20, 140, 0.5)
+    .name("FOV")
+    .onChange(() => {
+      this.camera.updateProjectionMatrix();
+    });
 
     lightGUI
-      .add(this.character?.light, "distance", 0.1, 7, 0.05)
-      .name("distance light");
+    .add(this.character?.light, "distance", 0.1, 7, 0.05)
+    .name("distance light");
 
     lightGUI
-      .addColor(this.character?.light, "color")
-      .name("color light")
-      .onChange((e) => {
-        console.log(e.getHexString());
-      });
+    .addColor(this.character?.light, "color")
+    .name("color light")
+    .onChange((e) => {
+      console.log(e.getHexString());
+    });
 
     sceneGUI
-      .add(this.environment?.mesh.children[0].material, "wireframe")
-      .name("ground wireframe");
+    .add(this.environment?.mesh.children[0].material, "wireframe")
+    .name("ground wireframe");
 
     window.addEventListener("keydown", (e) => {
       if (e.key == "t") gui.show(gui._hidden);
     });
+  }
+
+  changeFov(start, end) {
+    this.fov.current = (1 - 0.1) * start + 0.1 * end;
+    this.camera.fov = this.fov.current;
+    this.camera.updateProjectionMatrix();
+  }
+
+  changePortalFov(start, end) {
+    this.fov.current = (1 - 0.08) * start + 0.08 * end;
+    this.camera.fov = this.fov.current;
+    this.camera.updateProjectionMatrix();
   }
 
   checkFov() {
@@ -175,6 +186,14 @@ export class Engine {
       }
       if (this.fov.isDecelerate) {
         this.changeFov(this.fov.current, this.fov.base);
+      }
+    }
+    if (this.fov.isPortal) {
+      if (this.fov.isAccelerate) {
+        this.changePortalFov(this.fov.current, this.fov.portal);
+      }
+      if (this.fov.isDecelerate) {
+        this.changePortalFov(this.fov.current, this.fov.base);
       }
     }
   }

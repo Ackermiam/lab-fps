@@ -204,16 +204,34 @@ export default class Character {
     const newPosition = new Vector3(xPos - 11.5, 0, zPos - 11.5);
     let canITP = true;
     //valider la position
-    this.engine.environment.meshsPlacement.forEach(position => {
-      console.log(zPos, xPos, position)
+    this.engine.fov.isPortal = true;
+    this.engine.fov.isAccelerate = true;
+    this.engine.fov.isDecelerate = false;
+
+    this.engine.environment.meshsPlacement.forEach((position) => {
+      console.log(zPos, xPos, position);
       if (position.x === xPos && position.z === zPos) {
-        console.log('recommence la fonction')
-        canITP = false
+        console.log("recommence la fonction");
+        canITP = false;
         this.teleportCharacter();
       }
-    })
+    });
 
-    if(canITP === true) this.mesh.position.copy(newPosition);
+    if (canITP === true) {
+      this.mesh.position.copy(newPosition);
+
+      setTimeout(() => {
+        this.engine.fov.isPortal = true;
+        this.engine.fov.isAccelerate = false;
+        this.engine.fov.isDecelerate = true;
+      }, 450);
+
+      setTimeout(() => {
+        this.engine.fov.isPortal = false;
+        this.engine.fov.isAccelerate = false;
+        this.engine.fov.isDecelerate = false;
+      }, 550);
+    }
   }
 
   correctPosition(position: Vector3, axis: "x" | "z") {
