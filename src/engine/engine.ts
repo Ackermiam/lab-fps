@@ -46,6 +46,7 @@ export class Engine {
   delta: number;
   elapsedTime: number;
   sensitivity: number;
+  globalLight: AmbientLight;
   fov: {
     base: number;
     current: number;
@@ -95,8 +96,8 @@ export class Engine {
     this.renderer.setPixelRatio(this.pixelRatio);
     const resizeCanvas = window.devicePixelRatio > 1;
     this.renderer.setSize(width, height, resizeCanvas);
-    //const light = new AmbientLight( 0x404040 ); // soft white light
-    //this.scene.add( light );
+    this.globalLight = new AmbientLight( 0x581563, 0 ); // soft white light
+    this.scene.add( this.globalLight );
     /*const controls = new OrbitControls( this.camera, this.renderer.domElement );
     controls.update();*/
     ref.appendChild(this.renderer.domElement);

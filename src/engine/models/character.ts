@@ -204,6 +204,7 @@ export default class Character {
     const newPosition = new Vector3(xPos - 11.5, 0, zPos - 11.5);
     let canITP = true;
     //valider la position
+    this.engine.environment.flashTPLight();
     this.engine.fov.isPortal = true;
     this.engine.fov.isAccelerate = true;
     this.engine.fov.isDecelerate = false;
@@ -224,13 +225,14 @@ export default class Character {
         this.engine.fov.isPortal = true;
         this.engine.fov.isAccelerate = false;
         this.engine.fov.isDecelerate = true;
-      }, 450);
+        this.engine.environment.stopFlashTPLight();
+      }, 550);
 
       setTimeout(() => {
         this.engine.fov.isPortal = false;
         this.engine.fov.isAccelerate = false;
         this.engine.fov.isDecelerate = false;
-      }, 550);
+      }, 650);
     }
   }
 

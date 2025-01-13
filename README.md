@@ -31,6 +31,7 @@ La différence ? La vue est maintenant en première personne.
 ## 0.2.0
 
 - Add TP portals
+- Add animation TP Portal (Change FOV and Light while TP)
 
 ## 0.1.1
 

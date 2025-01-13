@@ -69,7 +69,7 @@ export default class Environment {
   }
 
   tick() {
-    if(this.tpBoundingBox.length > 0) this.moveTP();
+    if(this.tpBoundingBox.length > 0 && this.engine.fov.isPortal === false) this.moveTP();
   }
   setEnvironment() {
     this.createGround();
@@ -140,10 +140,17 @@ export default class Environment {
       light.children[0].position.y = Math.cos(this.engine.elapsedTime) / 3 + 0.5;
       light.children[1].intensity = Math.cos(this.engine.elapsedTime * 2) + 4;
     })
-    /*this.tpLight.children[0].rotation.y += 0.005;
-    this.tpLight.children[0].position.y = Math.cos(this.engine.elapsedTime) / 3 + 0.5;
-    this.tpLight.children[1].intensity = Math.cos(this.engine.elapsedTime * 2) + 4*/
   }
+
+  flashTPLight() {
+    this.engine.globalLight.intensity = 3;
+  }
+
+  stopFlashTPLight() {
+    this.engine.globalLight.intensity = 0;
+  }
+
+
 
   createLevelPlacement() {
     layers[this.engine.layer].level.forEach((item) => {
