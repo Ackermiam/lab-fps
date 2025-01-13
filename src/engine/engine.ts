@@ -72,7 +72,7 @@ export class Engine {
       isAccelerate: false,
       isDecelerate: false,
     };
-    this.camera = new PerspectiveCamera(this.fov.base, width / height, 0.1, 10);
+    this.camera = new PerspectiveCamera(this.fov.base, width / height, 0.1, 24);
     this.camera.position.set(0, 0, 0);
     this.camera.lookAt(0, 0, 0);
     this.layer = chosenLevel.value;
