@@ -71,7 +71,7 @@ export class Engine {
       base: 85,
       current: 85,
       accel: 110,
-      portal: 180,
+      portal: 170,
       isChanging: false,
       isPortal: false,
       isAccelerate: false,
@@ -113,6 +113,7 @@ export class Engine {
     this.checkFov();
     this.tickChildren();
     this.stats.end();
+    console.log(this.fov.current)
 
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
@@ -175,7 +176,7 @@ export class Engine {
   }
 
   changePortalFov(start, end) {
-    this.fov.current = (1 - 0.08) * start + 0.08 * end;
+    this.fov.current = (1 - 0.07) * start + 0.07 * end;
     this.camera.fov = this.fov.current;
     this.camera.updateProjectionMatrix();
   }
@@ -194,7 +195,7 @@ export class Engine {
         this.changePortalFov(this.fov.current, this.fov.portal);
       }
       if (this.fov.isDecelerate) {
-        this.changePortalFov(this.fov.current, this.fov.base);
+        this.changeFov(this.fov.current, this.fov.base);
       }
     }
   }
