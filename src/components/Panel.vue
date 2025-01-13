@@ -19,10 +19,15 @@
               Copilote ? <br />
               Vous m'entendez ? <br />
               On s'est écrasés ici dans ce.. ce monde étrange <br />
-              Nous devons sortir de là.. et.. au plus vite !
+              Ça fait plusieurs heures que je suis seul.. <br />
+              Je ne sais pas où je suis, ni comment je suis arrivé ici.. <br />
+              Je me souviens juste des tornades... <br />
+              On a percuté une tornade.. <br>
+              Mais je suis sûr d'une chose, je dois sortir de là.. et.. au plus vite !
             </p>
+
             <p class="Content--mission__instructions">
-              Vous avez 2 minutes pour sortir de cet endroit. Au clic sur le
+              Vous avez 5 minutes pour sortir de cet endroit. Au clic sur le
               bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
               <br />
               N'oubliez pas de vérifier dans <strong>"Controls"</strong> les controles du jeu !

@@ -136,7 +136,7 @@ export default class Environment {
 
   moveTP() {
     this.tpLight.forEach(light => {
-      light.children[0].rotation.y += 0.09;
+      light.children[0].rotation.y = this.engine.elapsedTime * 3;
       light.children[0].position.y = Math.cos(this.engine.elapsedTime) / 3 + 0.5;
       light.children[1].intensity = Math.cos(this.engine.elapsedTime * 2) + 4;
     })
