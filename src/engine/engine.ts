@@ -9,6 +9,11 @@ import {
   Vector3,
 } from "three";
 
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
 import Stats from "stats.js";
 import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
@@ -57,6 +62,7 @@ export class Engine {
     isAccelerate: boolean;
     isDecelerate: boolean;
   };
+  composer: any;
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
@@ -68,8 +74,8 @@ export class Engine {
     this.ref = ref;
     this.scene = new Scene();
     this.fov = {
-      base: 85,
-      current: 85,
+      base: 90,
+      current: 90,
       accel: 110,
       portal: 160,
       isChanging: false,
@@ -92,12 +98,30 @@ export class Engine {
       antialias: true,
     });
 
+    this.composer = new EffectComposer(this.renderer);
+    this.composer.renderTarget1.samples = 8;
+    this.composer.renderTarget2.samples = 8;
     this.renderer.setClearColor(0, 0);
     this.renderer.setPixelRatio(this.pixelRatio);
     const resizeCanvas = window.devicePixelRatio > 1;
+    this.composer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setSize(width, height, resizeCanvas);
-    this.globalLight = new AmbientLight( 0x581563, 0 );
-    this.scene.add( this.globalLight );
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass();
+    bloomPass.treshold = 0.05;
+    bloomPass.strength = 0.4;
+    bloomPass.radius = 0.5;
+    this.composer.addPass(bloomPass);
+
+    const outputPass = new OutputPass();
+    this.composer.addPass(outputPass);
+    console.log(this.composer.passes[1]);
+
+    this.globalLight = new AmbientLight(0x581563, 0);
+    this.scene.add(this.globalLight);
     /*const controls = new OrbitControls( this.camera, this.renderer.domElement );
     controls.update();*/
     ref.appendChild(this.renderer.domElement);
@@ -106,7 +130,7 @@ export class Engine {
   }
 
   tick() {
-    this.renderer.render(this.scene, this.camera);
+    this.composer.render();
     this.stats.begin();
     this.delta = this.clock.getDelta();
     this.elapsedTime = this.clock.getElapsedTime();
@@ -133,35 +157,39 @@ export class Engine {
     }, 100);
   }
 
-
   setupGUI() {
     const gui = new GUI({ title: "Acker'tools", closeFolders: true });
     const sceneGUI = gui.addFolder("Environment");
+    const shaderPP = gui.addFolder("ShaderPP");
     const cameraGUI = gui.addFolder("Camera");
     const lightGUI = gui.addFolder("Light");
     gui.hide();
 
     cameraGUI
-    .add(this.camera, "fov", 20, 140, 0.5)
-    .name("FOV")
-    .onChange(() => {
-      this.camera.updateProjectionMatrix();
-    });
+      .add(this.camera, "fov", 20, 140, 0.5)
+      .name("FOV")
+      .onChange(() => {
+        this.camera.updateProjectionMatrix();
+      });
 
     lightGUI
-    .add(this.character?.light, "distance", 0.1, 7, 0.05)
-    .name("distance light");
+      .add(this.character?.light, "distance", 0.1, 7, 0.05)
+      .name("distance light");
 
     lightGUI
-    .addColor(this.character?.light, "color")
-    .name("color light")
-    .onChange((e) => {
-      console.log(e.getHexString());
-    });
+      .addColor(this.character?.light, "color")
+      .name("color light")
+      .onChange((e) => {
+        console.log(e.getHexString());
+      });
 
     sceneGUI
-    .add(this.environment?.mesh.children[0].material, "wireframe")
-    .name("ground wireframe");
+      .add(this.environment?.mesh.children[0].material, "wireframe")
+      .name("ground wireframe");
+
+    shaderPP
+      .add(this.composer.passes[1], "strength", 0.1, 5)
+      .name("strength");
 
     window.addEventListener("keydown", (e) => {
       if (e.key == "t") gui.show(gui._hidden);

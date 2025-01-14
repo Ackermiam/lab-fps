@@ -1,10 +1,14 @@
 # DOOMO
 
-![Jeu](/presentation/doomgif.gif)
+### Preview V 0.2.1
+![V0.2.1](/presentation/v020gif.gif)
+
+### Preview V 0.1.0
+![V0.1.0](/presentation/doomgif.gif)
 
 ## Principe du jeu
 
-**2 minutes**. 2 minutes c'est le temps dont vous disposez pour vous échapper du labyrinthe dans lequel vous êtes.
+**5 minutes**. 5 minutes c'est le temps dont vous disposez pour vous échapper du labyrinthe dans lequel vous êtes.
 Doomo est une réinterprétation du projet `Labyrinthe` sorti quelques jours avant ce mini-jeu.
 La différence ? La vue est maintenant en première personne.
 
@@ -23,10 +27,18 @@ La différence ? La vue est maintenant en première personne.
 ## Futures fonctionnalités/update ?
 
 - Tirer avec son arme
-- Murs destructible
+- Elements destructible
+- Presence d'ennemis
+- Système de vague
 - Revoir le système de collision
 
 # Versions
+
+## 0.2.1
+
+- Add PostProcessing Shader
+- Enhance TP animation with strength bloom
+- Up to 5mn to exit the labyrinth
 
 ## 0.2.0
 

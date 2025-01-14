@@ -144,10 +144,12 @@ export default class Environment {
 
   flashTPLight() {
     this.engine.globalLight.intensity = 5;
+    this.engine.composer.passes[1].strength = 2.5;
   }
 
   stopFlashTPLight() {
     this.engine.globalLight.intensity = 0;
+    this.engine.composer.passes[1].strength = 0.4;
   }
 
 
