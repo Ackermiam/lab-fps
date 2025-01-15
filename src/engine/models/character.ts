@@ -162,15 +162,53 @@ export default class Character {
     }
   }
 
-  checkGroundCollision() {
-    const characterBox = this.boundingBox;
+  correctPosition(position: Vector3, axis: "x" | "z") {
+    const characterBox = this.boundingBox.clone();
+    characterBox.translate(position.clone().sub(this.mesh.position));
 
-    if (characterBox.intersectsBox(this.engine.environment.groundBoundingBox)) {
-      this.collideGround = true;
-    } else {
-      this.collideGround = false;
+    for (const obstacleBox of this.engine.environment.boundingBoxes) {
+      if (characterBox.intersectsBox(obstacleBox)) {
+        if (axis === "z") {
+          if (this.vecteur_mouvement.z > 0) {
+            // avance
+            position.z = Math.min(
+              position.z,
+              obstacleBox.min.z - this.boundingBox.max.z
+            );
+          } else if (this.vecteur_mouvement.z < 0) {
+            // recule
+            position.z = Math.max(
+              position.z,
+              obstacleBox.max.z - this.boundingBox.min.z
+            );
+          }
+        }
+
+        if (axis === "x") {
+          if (this.vecteur_mouvement.x > 0) {
+            // droite
+            position.x = Math.min(
+              position.x,
+              obstacleBox.min.x - this.boundingBox.max.x
+            );
+          } else if (this.vecteur_mouvement.x < 0) {
+            // gauche
+            position.x = Math.max(
+              position.x,
+              obstacleBox.max.x - this.boundingBox.min.x
+            );
+          }
+        }
+      }
+    }
+
+    if (axis === "z") {
+      this.mesh.position.z = position.z;
+    } else if (axis === "x") {
+      this.mesh.position.x = position.x;
     }
   }
+
 
   checkObstacleCollision(position: Vector3): boolean {
     const characterBox = this.boundingBox.clone();
@@ -183,6 +221,16 @@ export default class Character {
     }
 
     return false;
+  }
+
+  checkGroundCollision() {
+    const characterBox = this.boundingBox;
+
+    if (characterBox.intersectsBox(this.engine.environment.groundBoundingBox)) {
+      this.collideGround = true;
+    } else {
+      this.collideGround = false;
+    }
   }
 
   checkTPCollision() {
@@ -231,53 +279,6 @@ export default class Character {
         this.engine.fov.isPortal = false;
         this.canMove = true;
       }, 750);
-    }
-  }
-
-  correctPosition(position: Vector3, axis: "x" | "z") {
-    const characterBox = this.boundingBox.clone();
-    characterBox.translate(position.clone().sub(this.mesh.position));
-
-    for (const obstacleBox of this.engine.environment.boundingBoxes) {
-      if (characterBox.intersectsBox(obstacleBox)) {
-        if (axis === "z") {
-          if (this.vecteur_mouvement.z > 0) {
-            // avance
-            position.z = Math.min(
-              position.z,
-              obstacleBox.min.z - this.boundingBox.max.z
-            );
-          } else if (this.vecteur_mouvement.z < 0) {
-            // recule
-            position.z = Math.max(
-              position.z,
-              obstacleBox.max.z - this.boundingBox.min.z
-            );
-          }
-        }
-
-        if (axis === "x") {
-          if (this.vecteur_mouvement.x > 0) {
-            // droite
-            position.x = Math.min(
-              position.x,
-              obstacleBox.min.x - this.boundingBox.max.x
-            );
-          } else if (this.vecteur_mouvement.x < 0) {
-            // gauche
-            position.x = Math.max(
-              position.x,
-              obstacleBox.max.x - this.boundingBox.min.x
-            );
-          }
-        }
-      }
-    }
-
-    if (axis === "z") {
-      this.mesh.position.z = position.z;
-    } else if (axis === "x") {
-      this.mesh.position.x = position.x;
     }
   }
 

@@ -45,13 +45,13 @@ export default class Environment {
     this.loadingManager = new LoadingManager();
     this.textureLoader = new TextureLoader(this.loadingManager);
     this.texture = this.textureLoader.load(walltexture);
+    this.texture.colorSpace = SRGBColorSpace;
     this.normalTexture = this.textureLoader.load(normaltexture);
     this.displacementTexture = this.textureLoader.load(displacementtexture);
     this.textureGround = this.textureLoader.load(groundtexture);
     this.textureGround.wrapT = RepeatWrapping;
     this.textureGround.wrapS = RepeatWrapping;
     this.textureGround.repeat = new Vector2(35, 35);
-    this.texture.colorSpace = SRGBColorSpace;
     this.noisetexture = this.textureLoader.load(noisetexture)
     this.noisetexture.wrapT = RepeatWrapping;
     this.noisetexture.wrapS = RepeatWrapping;
@@ -151,8 +151,6 @@ export default class Environment {
     this.engine.globalLight.intensity = 0;
     this.engine.composer.passes[1].strength = 0.4;
   }
-
-
 
   createLevelPlacement() {
     layers[this.engine.layer].level.forEach((item) => {

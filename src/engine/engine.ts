@@ -4,8 +4,6 @@ import {
   PerspectiveCamera,
   Clock,
   AmbientLight,
-  Quaternion,
-  Euler,
   Vector3,
 } from "three";
 
@@ -111,14 +109,12 @@ export class Engine {
     this.composer.addPass(renderPass);
 
     const bloomPass = new UnrealBloomPass();
-    bloomPass.treshold = 0.05;
     bloomPass.strength = 0.4;
     bloomPass.radius = 0.5;
     this.composer.addPass(bloomPass);
 
     const outputPass = new OutputPass();
     this.composer.addPass(outputPass);
-    console.log(this.composer.passes[1]);
 
     this.globalLight = new AmbientLight(0x581563, 0);
     this.scene.add(this.globalLight);
@@ -230,6 +226,19 @@ export class Engine {
   restart(indexMap: number) {
     this.layer = indexMap;
     this.scene = new Scene();
+
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.composer = new EffectComposer(this.renderer);
+    this.composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass();
+    bloomPass.strength = 0.4;
+    bloomPass.radius = 0.5;
+    this.composer.addPass(bloomPass);
+
+    const outputPass = new OutputPass();
+    this.composer.addPass(outputPass);
+
     restartTime();
     beginGame();
     this.setup();

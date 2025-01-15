@@ -26,11 +26,11 @@ La différence ? La vue est maintenant en première personne.
 
 ## Futures fonctionnalités/update ?
 
+- Revoir le système de collision
 - Tirer avec son arme
 - Elements destructible
 - Presence d'ennemis
 - Système de vague
-- Revoir le système de collision
 
 # Versions
 
