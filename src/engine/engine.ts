@@ -16,6 +16,7 @@ import Stats from "stats.js";
 import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
+import Enemy from "./models/enemy.ts";
 import GUI from "lil-gui";
 //import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
@@ -44,6 +45,7 @@ export class Engine {
   mouseDirection: Vector3;
   character: Character | null = null;
   environment: Environment | null = null;
+  enemy: Enemy | null = null;
   layer: number;
   clock: Clock;
   delta: number;
@@ -142,7 +144,8 @@ export class Engine {
   setup() {
     this.environment = new Environment(this);
     this.character = new Character(this);
-    this.meshs.push(this.environment, this.character);
+    this.enemy = new Enemy(this);
+    this.meshs.push(this.environment, this.character, this.enemy);
     this.addChildren();
     this.setupGUI();
     this.setView();
@@ -183,9 +186,7 @@ export class Engine {
       .add(this.environment?.mesh.children[0].material, "wireframe")
       .name("ground wireframe");
 
-    shaderPP
-      .add(this.composer.passes[1], "strength", 0.1, 5)
-      .name("strength");
+    shaderPP.add(this.composer.passes[1], "strength", 0.1, 5).name("strength");
 
     window.addEventListener("keydown", (e) => {
       if (e.key == "t") gui.show(gui._hidden);

@@ -23,16 +23,20 @@ La différence ? La vue est maintenant en première personne.
 - Une UI renouvellée pour cette version du jeu
 - Chargement de map aléatoire
 - Portail de téléportation
+- Revoir le système de collision
 
 ## Futures fonctionnalités/update ?
 
-- Revoir le système de collision
 - Tirer avec son arme
 - Elements destructible
 - Presence d'ennemis
 - Système de vague
 
 # Versions
+
+## 0.2.2
+
+- Collision system updated
 
 ## 0.2.1
 
