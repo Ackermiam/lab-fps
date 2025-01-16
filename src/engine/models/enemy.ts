@@ -48,7 +48,6 @@ export default class Enemy {
       color: 0xff0000,
       displacementMap: this.texture,
       displacementScale: 0.035,
-      //emissive: '#b3271d'
     });
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "enemy";
@@ -57,6 +56,7 @@ export default class Enemy {
   }
 
   moveEnemy() {
+    this.mesh.rotation.y = this.engine.elapsedTime;
     this.mesh.position.y = Math.cos(this.engine.elapsedTime * 2) / 4 + 0.3;
     this.moveTransition(
       this.mesh.position,
