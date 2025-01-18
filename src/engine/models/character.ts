@@ -246,6 +246,14 @@ export default class Character {
     this.boundingBox.expandByScalar(-0.01);
   }
 
+  weaponEffect() {
+    console.log("weaponrecoil")
+    this.engine.composer.passes[1].strength = 1;
+    setTimeout(() => {
+      this.engine.composer.passes[1].strength = 0.4;
+    },50)
+  }
+
   finishLevel() {
     const finishLevel = new CustomEvent("finishLevel", {
       detail: "finishLevel",

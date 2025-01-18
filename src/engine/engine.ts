@@ -22,6 +22,7 @@ import GUI from "lil-gui";
 
 const {
   chosenLevel,
+  panelIsVisible,
   manageEndgame,
   redoGame,
   beginGame,
@@ -130,10 +131,12 @@ export class Engine {
   tick() {
     this.composer.render();
     this.stats.begin();
-    this.delta = this.clock.getDelta();
-    this.elapsedTime = this.clock.getElapsedTime();
+    if(panelIsVisible.value === false) {
+      this.delta = this.clock.getDelta();
+      this.elapsedTime = this.clock.getElapsedTime();
+      this.tickChildren();
+    }
     this.checkFov();
-    this.tickChildren();
     this.stats.end();
 
     this.animationFrameId = requestAnimationFrame(() => {
@@ -298,6 +301,9 @@ export class Engine {
     document.body.requestPointerLock();
 
     document.addEventListener("mousemove", this.handleMouseMove);
+    document.addEventListener("click", () => {
+      this.character?.weaponEffect();
+    });
   }
 
   disablePointerLock() {

@@ -37,6 +37,8 @@ La différence ? La vue est maintenant en première personne.
 ## 0.2.2
 
 - Collision system updated
+- Play/Pause mode when menu is open
+- Add bloom effect while click (to simulate bullet effect)
 
 ## 0.2.1
 
