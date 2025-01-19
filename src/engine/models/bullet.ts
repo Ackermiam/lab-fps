@@ -4,7 +4,7 @@ import {
   Mesh,
   Box3,
   Vector3,
-  Matrix4
+  Matrix4,
 } from "three";
 import type { Engine } from "../engine";
 
@@ -31,7 +31,10 @@ export default class Bullet {
 
   setupBullet(engine: Engine, pos: Vector3, direction: Matrix4) {
     const geometry = new SphereGeometry(0.005, 15, 8);
-    const material = new MeshPhongMaterial({color: 0x0000ff})
+    const material = new MeshPhongMaterial({
+      color: "#00fff2",
+      emissive: "#00fff2",
+    });
     const mesh = new Mesh(geometry, material);
     this.position = new Vector3(pos.x, pos.y + 0.1, pos.z);
     this.direction = direction;
