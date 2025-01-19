@@ -9,6 +9,7 @@ import {
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
+import Bullet from "./bullet.ts"
 
 export default class Character {
   mesh: Mesh;
@@ -23,8 +24,12 @@ export default class Character {
   accelerate: number;
   gun: any;
   isTp: boolean;
+  bullets: any[];
+  life: number;
 
   constructor(engine: Engine) {
+    this.life = 50;
+    this.bullets = [];
     this.collideGround = true;
     this.isTp = false;
     this.gun = this.canMove = false;
@@ -127,9 +132,9 @@ export default class Character {
     if (this.vecteur_mouvement.z !== 0) {
       const moveZ = forwardVector.multiplyScalar(
         this.vecteur_mouvement.z *
-          this.speed *
-          this.accelerate *
-          this.engine.delta
+        this.speed *
+        this.accelerate *
+        this.engine.delta
       );
       anticipatedPosition.add(moveZ);
     }
@@ -137,9 +142,9 @@ export default class Character {
     if (this.vecteur_mouvement.x !== 0) {
       const moveX = rightVector.multiplyScalar(
         this.vecteur_mouvement.x *
-          this.speed *
-          this.accelerate *
-          this.engine.delta
+        this.speed *
+        this.accelerate *
+        this.engine.delta
       );
       anticipatedPosition.add(moveX);
     }
@@ -235,6 +240,17 @@ export default class Character {
     }
   }
 
+  createBullet() {
+    const bulletPos = this.mesh.position.clone();
+    const cameraMatrix = new Matrix4().extractRotation(
+      this.engine.camera.matrix
+    );
+    const bullet = new Bullet(this.engine, bulletPos, cameraMatrix);
+
+    this.bullets.push(bullet);
+    //console.log(this.bullets)
+  }
+
   updateCameraPosition() {
     this.engine.camera.position.x = this.mesh.position.x;
     this.engine.camera.position.y = this.mesh.position.y + 0.2;
@@ -247,7 +263,6 @@ export default class Character {
   }
 
   weaponEffect() {
-    console.log("weaponrecoil")
     this.engine.composer.passes[1].strength = 1;
     setTimeout(() => {
       this.engine.composer.passes[1].strength = 0.4;

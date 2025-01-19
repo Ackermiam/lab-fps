@@ -22,8 +22,10 @@ export default class Enemy {
   textureLoader: TextureLoader;
   texture: Record<string, any>;
   loadingManager: LoadingManager;
+  life: number;
 
   constructor(engine: Engine) {
+    this.life = 50;
     this.loadingManager = new LoadingManager();
     this.textureLoader = new TextureLoader(this.loadingManager);
     this.texture = this.textureLoader.load(groundtexture);

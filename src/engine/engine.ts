@@ -303,6 +303,7 @@ export class Engine {
     document.addEventListener("mousemove", this.handleMouseMove);
     document.addEventListener("click", () => {
       this.character?.weaponEffect();
+      this.character?.createBullet();
     });
   }
 
