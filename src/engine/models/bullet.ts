@@ -17,6 +17,7 @@ export default class Bullet {
   engine: Engine;
 
   constructor(engine: Engine, pos: Vector3, dir: Matrix4) {
+    this.boundingBox = new Box3();
     this.position = new Vector3(0, 0, 0);
     this.direction = new Matrix4();
     this.mesh = new Mesh();
@@ -27,6 +28,7 @@ export default class Bullet {
 
   tick() {
     this.move();
+    this.updateBoundingBox();
   }
 
   setupBullet(engine: Engine, pos: Vector3, direction: Matrix4) {
@@ -52,5 +54,10 @@ export default class Bullet {
     const moveZ = forwardVector.multiplyScalar(this.engine.delta * 10);
 
     this.mesh.position.add(moveZ);
+  }
+
+  updateBoundingBox() {
+    this.boundingBox.setFromObject(this.mesh);
+    this.boundingBox.expandByScalar(-0.01);
   }
 }

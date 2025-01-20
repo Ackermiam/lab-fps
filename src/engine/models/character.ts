@@ -9,7 +9,7 @@ import {
 } from "three";
 import type { Engine } from "../engine";
 import { layers } from "../data/layers/layers.ts";
-import Bullet from "./bullet.ts"
+import Bullet from "./bullet.ts";
 
 export default class Character {
   mesh: Mesh;
@@ -55,6 +55,7 @@ export default class Character {
       this.moveLight();
       this.updateBoundingBox();
       this.checkGroundCollision();
+      this.checkBulletCollision();
       if (this.canMove) {
         this.moveCharacter();
       }
@@ -132,9 +133,9 @@ export default class Character {
     if (this.vecteur_mouvement.z !== 0) {
       const moveZ = forwardVector.multiplyScalar(
         this.vecteur_mouvement.z *
-        this.speed *
-        this.accelerate *
-        this.engine.delta
+          this.speed *
+          this.accelerate *
+          this.engine.delta
       );
       anticipatedPosition.add(moveZ);
     }
@@ -142,9 +143,9 @@ export default class Character {
     if (this.vecteur_mouvement.x !== 0) {
       const moveX = rightVector.multiplyScalar(
         this.vecteur_mouvement.x *
-        this.speed *
-        this.accelerate *
-        this.engine.delta
+          this.speed *
+          this.accelerate *
+          this.engine.delta
       );
       anticipatedPosition.add(moveX);
     }
@@ -157,10 +158,8 @@ export default class Character {
       if (!this.checkObstacleCollision(anticipatedPosition)) {
         newPosition.copy(anticipatedPosition);
       } else {
-        if (this.vecteur_mouvement.z !== 0)
-          newPosition.copy(previousPosition);
-        if (this.vecteur_mouvement.x !== 0)
-          newPosition.copy(previousPosition);
+        if (this.vecteur_mouvement.z !== 0) newPosition.copy(previousPosition);
+        if (this.vecteur_mouvement.x !== 0) newPosition.copy(previousPosition);
       }
 
       newPosition.y = 0;
@@ -179,6 +178,25 @@ export default class Character {
     }
 
     return false;
+  }
+
+  checkBulletCollision() {
+    for (let i = 0; i < this.bullets.length; i++) {
+      const bulletBox = this.bullets[i].boundingBox.clone();
+      for (let j = 0; j < this.engine.environment.boundingBoxes.length; j++) {
+        if (bulletBox.intersectsBox(this.engine.environment.boundingBoxes[j])) {
+          let id = this.bullets[i].mesh.uuid;
+          this.engine.meshs = this.engine.meshs.filter(
+            (meshObj) => meshObj.mesh.uuid !== id
+          );
+          this.engine.scene.children = this.engine.scene.children.filter(
+            (child) => child.uuid !== id
+          );
+          this.bullets.splice(i, 1);
+          break;
+        }
+      }
+    }
   }
 
   checkGroundCollision() {
@@ -248,7 +266,6 @@ export default class Character {
     const bullet = new Bullet(this.engine, bulletPos, cameraMatrix);
 
     this.bullets.push(bullet);
-    //console.log(this.bullets)
   }
 
   updateCameraPosition() {
@@ -266,7 +283,7 @@ export default class Character {
     this.engine.composer.passes[1].strength = 1;
     setTimeout(() => {
       this.engine.composer.passes[1].strength = 0.4;
-    },50)
+    }, 50);
   }
 
   finishLevel() {

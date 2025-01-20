@@ -14,8 +14,6 @@ import groundtexture from "../../assets/textures/groundtexture.jpg";
 
 export default class Enemy {
   mesh: Mesh;
-  vecteur_mouvement: { x: number; y: number; z: number };
-  speed: number;
   engine: Engine;
   boundingBox: Box3;
   light: PointLight;
@@ -30,11 +28,9 @@ export default class Enemy {
     this.textureLoader = new TextureLoader(this.loadingManager);
     this.texture = this.textureLoader.load(groundtexture);
     this.texture.colorSpace = SRGBColorSpace;
-    this.speed = 1.5;
     this.mesh = new Mesh();
     this.engine = engine;
     this.createEnemy();
-    this.vecteur_mouvement = { x: 0, y: 0, z: 0 };
     this.boundingBox = new Box3();
     this.light = new PointLight(0xaa0000, 1.5, 1);
     this.mesh.add(this.light);
@@ -42,6 +38,8 @@ export default class Enemy {
 
   tick() {
     this.moveEnemy();
+    this.updateBoundingBox();
+    this.checkBulletCollision();
   }
 
   createEnemy() {
@@ -71,8 +69,29 @@ export default class Enemy {
     this.mesh.position.z = (1 - 0.002) * start.z + 0.002 * end.z;
   }
 
-  /*updateBoundingBox() {
+  updateBoundingBox() {
     this.boundingBox.setFromObject(this.mesh);
     this.boundingBox.expandByScalar(-0.01);
-  }*/
+  }
+
+  checkBulletCollision() {
+    for (let i = 0; i < this.engine.character.bullets.length; i++) {
+      const bulletBox = this.engine.character.bullets[i].boundingBox.clone();
+
+      if (bulletBox.intersectsBox(this.boundingBox)) {
+        this.life -= 10;
+        if (this.life <= 0) {
+          let id = this.mesh.uuid;
+
+          this.engine.meshs = this.engine.meshs.filter(
+            (meshObj) => meshObj.mesh.uuid !== id
+          );
+          this.engine.scene.children = this.engine.scene.children.filter(
+            (child) => child.uuid !== id
+          );
+          break;
+        }
+      }
+    }
+  }
 }
