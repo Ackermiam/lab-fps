@@ -297,6 +297,13 @@ export class Engine {
     manageEndgame();
   }
 
+  cleanUselessBullets() {
+    console.log({
+      "meshs": this.meshs,
+      "scene": this.scene
+    })
+  }
+
   enablePointerLock() {
     document.body.requestPointerLock();
 
