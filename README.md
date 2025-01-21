@@ -34,6 +34,12 @@ La différence ? La vue est maintenant en première personne.
 
 # Versions
 
+## 0.3.0
+
+- Now you can fire with your gun
+- There is ennemy to kill
+- The game is no longer a labyrinth, but an survival map
+
 ## 0.2.2
 
 - Collision system updated

@@ -42,8 +42,11 @@
             </p>
 
             <p class="Content--mission__instructions">
-              Vous avez 5 minutes pour sortir de cet endroit. Au clic sur le
-              bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
+              Vous devez survivre, toutes les 2 minutes une nouvelle vague
+              d'ennemies arrive. <br />Au clic sur le bouton
+              <strong>"Jouer"</strong>, le chronomètre se déclenchera.
+              <br />
+              Survivez le plus longtemps.
               <br />
               N'oubliez pas de vérifier dans <strong>"Controls"</strong> les
               controles du jeu !

@@ -196,6 +196,10 @@ export class Engine {
     });
   }
 
+  instanceEnemies() {
+    
+  }
+
   changeFov(start, end) {
     this.fov.current = (1 - 0.1) * start + 0.1 * end;
     this.camera.fov = this.fov.current;

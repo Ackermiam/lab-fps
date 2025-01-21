@@ -30,7 +30,7 @@ const formattedTime = computed(() => {
 onMounted(() => {
   const timerInterval = setInterval(() => {
     if (timeRemaining.value > 0) {
-      if (!panelIsVisible.value) timeRemaining.value--;
+      if (!panelIsVisible.value) timeRemaining.value++;
     } else {
       //clearInterval(timerInterval);
       window.dispatchEvent(stopEvent);
