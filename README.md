@@ -38,7 +38,7 @@ La différence ? La vue est maintenant en première personne.
 
 - Now you can fire with your gun
 - There is ennemy to kill
-- The game is no longer a labyrinth, but an survival map
+- The game is no longer a labyrinth, but a survival map
 
 ## 0.2.2
 
