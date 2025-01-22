@@ -18,6 +18,9 @@ const displayIntro = ref(true);
 //TEMPS RESTANT
 const timeRemaining = ref(1);
 
+//WAVES
+const wave = (1);
+
 export const settings = () => {
   const manageWin = (state: boolean) => {
     win.value = state

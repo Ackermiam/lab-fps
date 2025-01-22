@@ -34,6 +34,7 @@ export default class Enemy {
     this.boundingBox = new Box3();
     this.light = new PointLight(0xaa0000, 1.5, 1);
     this.mesh.add(this.light);
+    console.log(this.mesh);
   }
 
   tick() {
@@ -80,6 +81,12 @@ export default class Enemy {
 
       if (bulletBox.intersectsBox(this.boundingBox)) {
         this.life -= 10;
+        this.light.intensity = 80;
+        this.mesh.children[0].material.emissive.setHex(0xff0000);
+        setTimeout(() => {
+          this.light.intensity = 1.5;
+          this.mesh.children[0].material.emissive.setHex(0x000000);
+        },100)
         if (this.life <= 0) {
           let id = this.mesh.uuid;
 
@@ -89,6 +96,7 @@ export default class Enemy {
           this.engine.scene.children = this.engine.scene.children.filter(
             (child) => child.uuid !== id
           );
+
           break;
         }
       }
