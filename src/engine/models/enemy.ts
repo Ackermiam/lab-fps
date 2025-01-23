@@ -44,6 +44,8 @@ export default class Enemy {
   }
 
   createEnemy() {
+    const xPos = Math.floor(Math.random() * 24);
+    const zPos = Math.floor(Math.random() * 24);
     const box = new IcosahedronGeometry(0.1, 0);
     const material = new MeshPhongMaterial({
       color: 0xff0000,
@@ -53,7 +55,7 @@ export default class Enemy {
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "enemy";
     this.mesh.add(mesh);
-    this.mesh.position.set(0, 2, 0);
+    this.mesh.position.set(xPos, 2, zPos);
   }
 
   moveEnemy() {

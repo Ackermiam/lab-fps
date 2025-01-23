@@ -46,7 +46,7 @@ export class Engine {
   mouseDirection: Vector3;
   character: Character | null = null;
   environment: Environment | null = null;
-  enemy: Enemy | null = null;
+  enemy: Enemy[] | null = null;
   layer: number;
   clock: Clock;
   delta: number;
@@ -64,9 +64,12 @@ export class Engine {
     isDecelerate: boolean;
   };
   composer: any;
+  setBulletInterval: any;
 
   constructor(ref: HTMLElement) {
     const { width, height } = ref.getBoundingClientRect();
+    this.setBulletInterval = null;
+    this.enemy = [];
     this.stats = new Stats();
     this.stats.showPanel(0);
     document.body.appendChild(this.stats.dom);
@@ -131,7 +134,7 @@ export class Engine {
   tick() {
     this.composer.render();
     this.stats.begin();
-    if(panelIsVisible.value === false) {
+    if (panelIsVisible.value === false) {
       this.delta = this.clock.getDelta();
       this.elapsedTime = this.clock.getElapsedTime();
       this.tickChildren();
@@ -145,10 +148,11 @@ export class Engine {
   }
 
   setup() {
+    const startEnemies = [new Enemy(this), new Enemy(this)];
     this.environment = new Environment(this);
     this.character = new Character(this);
-    this.enemy = new Enemy(this);
-    this.meshs.push(this.environment, this.character, this.enemy);
+    this.enemy?.push(...startEnemies);
+    this.meshs.push(this.environment, this.character, ...this.enemy);
     this.addChildren();
     this.setupGUI();
     this.setView();
@@ -196,9 +200,7 @@ export class Engine {
     });
   }
 
-  instanceEnemies() {
-    
-  }
+  instanceEnemies() {}
 
   changeFov(start, end) {
     this.fov.current = (1 - 0.1) * start + 0.1 * end;
@@ -303,18 +305,23 @@ export class Engine {
 
   cleanUselessBullets() {
     console.log({
-      "meshs": this.meshs,
-      "scene": this.scene
-    })
+      meshs: this.meshs,
+      scene: this.scene,
+    });
   }
 
   enablePointerLock() {
     document.body.requestPointerLock();
 
     document.addEventListener("mousemove", this.handleMouseMove);
-    document.addEventListener("click", () => {
-      this.character?.weaponEffect();
-      this.character?.createBullet();
+    document.addEventListener("mousedown", () => {
+      this.setBulletInterval = setInterval(() => {
+        this.character?.weaponEffect();
+        this.character?.createBullet();
+      }, 100);
+    });
+    document.addEventListener("mouseup", () => {
+      clearInterval(this.setBulletInterval);
     });
   }
 
