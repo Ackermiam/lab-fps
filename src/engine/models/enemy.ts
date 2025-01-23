@@ -67,6 +67,15 @@ export default class Enemy {
     );
   }
 
+  addEnemy(numberToCreate: number): this[] {
+    const enemies = []
+    for(let i = 0; i < numberToCreate; i++) {
+      this.createEnemy();
+      enemies.push(this)
+    }
+    return enemies;
+  }
+
   moveTransition(start, end) {
     this.mesh.position.x = (1 - 0.002) * start.x + 0.002 * end.x;
     this.mesh.position.z = (1 - 0.002) * start.z + 0.002 * end.z;
