@@ -9,8 +9,10 @@ import {
   LoadingManager,
 } from "three";
 import type { Engine } from "../engine";
+import { settings } from "../../composables/handleSettings";
 
 import groundtexture from "../../assets/textures/groundtexture.jpg";
+const {randomPlace} = settings();
 
 export default class Enemy {
   mesh: Mesh;
@@ -22,8 +24,8 @@ export default class Enemy {
   loadingManager: LoadingManager;
   life: number;
 
-  constructor(engine: Engine) {
-    this.life = 50;
+  constructor(engine: Engine, life: number) {
+    this.life = life;
     this.loadingManager = new LoadingManager();
     this.textureLoader = new TextureLoader(this.loadingManager);
     this.texture = this.textureLoader.load(groundtexture);
@@ -34,7 +36,6 @@ export default class Enemy {
     this.boundingBox = new Box3();
     this.light = new PointLight(0xaa0000, 1.5, 1);
     this.mesh.add(this.light);
-    console.log(this.mesh);
   }
 
   tick() {
@@ -44,8 +45,8 @@ export default class Enemy {
   }
 
   createEnemy() {
-    const xPos = Math.floor(Math.random() * 24);
-    const zPos = Math.floor(Math.random() * 24);
+    const xPos = randomPlace();
+    const zPos = randomPlace();
     const box = new IcosahedronGeometry(0.1, 0);
     const material = new MeshPhongMaterial({
       color: 0xff0000,
@@ -65,15 +66,6 @@ export default class Enemy {
       this.mesh.position,
       this.engine.character?.mesh.position
     );
-  }
-
-  addEnemy(numberToCreate: number): this[] {
-    const enemies = []
-    for(let i = 0; i < numberToCreate; i++) {
-      this.createEnemy();
-      enemies.push(this)
-    }
-    return enemies;
   }
 
   moveTransition(start, end) {

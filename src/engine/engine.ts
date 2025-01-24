@@ -23,6 +23,7 @@ import GUI from "lil-gui";
 const {
   chosenLevel,
   panelIsVisible,
+  wave,
   manageEndgame,
   redoGame,
   beginGame,
@@ -148,7 +149,7 @@ export class Engine {
   }
 
   setup() {
-    const startEnemies = [new Enemy(this), new Enemy(this)];
+    const startEnemies = [new Enemy(this, 50 * wave.value), new Enemy(this, 50 * wave.value)];
     this.environment = new Environment(this);
     this.character = new Character(this);
     this.enemy?.push(...startEnemies);
@@ -200,7 +201,13 @@ export class Engine {
     });
   }
 
-  instanceEnemies() {}
+  instanceEnemies(numberToCreate: number) {
+    for(let i = 0; i < numberToCreate; i++) {
+      const enemy = new Enemy(this, 50 * wave.value)
+      this.meshs.push(enemy);
+      this.scene.add(enemy.mesh);
+    }
+  }
 
   changeFov(start, end) {
     this.fov.current = (1 - 0.1) * start + 0.1 * end;
@@ -323,6 +330,10 @@ export class Engine {
     document.addEventListener("mouseup", () => {
       clearInterval(this.setBulletInterval);
     });
+    document.addEventListener("click", () => {
+      this.character?.weaponEffect();
+      this.character?.createBullet();
+    });
   }
 
   disablePointerLock() {
@@ -353,5 +364,8 @@ export class Engine {
       this.disablePointerLock();
       this.showEndGame("lose");
     });
+    window.addEventListener('wave', () => {
+      this.instanceEnemies(3)
+    })
   }
 }

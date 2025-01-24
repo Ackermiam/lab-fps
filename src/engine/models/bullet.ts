@@ -22,7 +22,7 @@ export default class Bullet {
     this.direction = new Matrix4();
     this.mesh = new Mesh();
     this.engine = engine;
-    this.speed = 1;
+    this.speed = 2;
     this.setupBullet(engine, pos, dir);
   }
 

@@ -6,6 +6,7 @@ const chosenLevel = ref(0);
 const panelIsVisible = ref(true);
 const endgameIsVisible = ref(false);
 const stopEvent = new CustomEvent("loseGame", { detail: "lose" });
+const waveEvent = new CustomEvent("wave", { detail: "newWave" });
 const win = ref(false);
 
 //MENU
@@ -19,11 +20,15 @@ const displayIntro = ref(true);
 const timeRemaining = ref(1);
 
 //WAVES
-const wave = (1);
+const wave = ref(1);
 
 export const settings = () => {
   const manageWin = (state: boolean) => {
     win.value = state
+  }
+
+  const randomPlace = (): number => {
+    return Math.floor(Math.random() * 24) - 11.5
   }
 
   const restartTime = () => {
@@ -87,12 +92,15 @@ export const settings = () => {
     chosenLevel,
     panelIsVisible,
     stopEvent,
+    waveEvent,
+    wave,
     displayMenu,
     displayBeginMenu,
     displayIntro,
     endgameIsVisible,
     timeRemaining,
     win,
+    randomPlace,
     triggerHome,
     triggerGame,
     triggerArcadeMode,

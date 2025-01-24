@@ -10,6 +10,7 @@
       <p class="HUD__boussole--West">O</p>
       <p class="HUD__boussole--East">E</p>
     </div>
+    <div class="HUD__wave">Wave {{ wave }}</div>
     <div class="HUD__timer">{{ formattedTime }}</div>
     <div class="HUD__pointer"></div>
   </section>
@@ -19,24 +20,46 @@
 import { ref, computed, onMounted } from "vue";
 import { settings } from "../composables/handleSettings";
 
-const { panelIsVisible, stopEvent, timeRemaining, openPanel, redoGame, restartTime } = settings();
+const {
+  panelIsVisible,
+  stopEvent,
+  waveEvent,
+  timeRemaining,
+  wave,
+  openPanel,
+  redoGame,
+  restartTime,
+} = settings();
+
+let allTime = 0;
 
 const formattedTime = computed(() => {
   const minutes = Math.floor(timeRemaining.value / 60);
   const seconds = timeRemaining.value % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+    2,
+    "0"
+  )}`;
 });
 
 onMounted(() => {
   const timerInterval = setInterval(() => {
     if (timeRemaining.value > 0) {
-      if (!panelIsVisible.value) timeRemaining.value++;
+      if (!panelIsVisible.value) {
+        timeRemaining.value++;
+        allTime++;
+      }
+      if (allTime > 0 && allTime % 60 === 0) {
+        window.dispatchEvent(waveEvent);
+        wave.value++;
+      }
     } else {
       //clearInterval(timerInterval);
       window.dispatchEvent(stopEvent);
       redoGame();
       openPanel();
       restartTime();
+      allTime = 0;
     }
   }, 1000);
 });
@@ -71,10 +94,17 @@ onMounted(() => {
   backdrop-filter: blur(150px);
 }
 
+.HUD__wave {
+  font-family: "Mewatonia";
+  font-size: 2em;
+  color: white;
+  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
+}
+
 .HUD__timer {
   color: white;
   font-size: 1.2em;
-  font-family: 'Mewatonia', sans-serif;
+  font-family: "Mewatonia", sans-serif;
   border-radius: 8px;
   border: 4px solid white;
   padding: 10px 15px;
@@ -90,7 +120,7 @@ p {
   margin: 0;
   position: absolute;
   font-size: 1.5em;
-  font-family: 'Mewatonia';
+  font-family: "Mewatonia";
 }
 
 .HUD__boussole--North {
@@ -126,7 +156,8 @@ p {
   background: rgba(146, 248, 255, 0.9);
   transform: translateY(-50%);
   animation: displayPointer 2s ease;
-  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9)) drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
+  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9))
+    drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
 }
 
 .enter {

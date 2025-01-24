@@ -28,6 +28,7 @@ const closeMenu = () => {
   closePanel();
   beginGame();
   engine.enablePointerLock();
+  clearInterval(engine.setBulletInterval);
 };
 
 const closeRedoMenu = () => {
@@ -46,6 +47,7 @@ onMounted(() => {
     if (key == "f") {
       openPanel();
       engine.disablePointerLock();
+      clearInterval(engine.setBulletInterval);
     }
   });
 });
