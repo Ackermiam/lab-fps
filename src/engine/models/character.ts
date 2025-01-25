@@ -26,8 +26,10 @@ export default class Character {
   isTp: boolean;
   bullets: any[];
   life: number;
+  stockBullets: number;
 
   constructor(engine: Engine) {
+    this.stockBullets = 300;
     this.life = 50;
     this.bullets = [];
     this.collideGround = true;

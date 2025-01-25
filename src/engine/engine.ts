@@ -322,15 +322,20 @@ export class Engine {
 
     document.addEventListener("mousemove", this.handleMouseMove);
     document.addEventListener("mousedown", () => {
-      this.setBulletInterval = setInterval(() => {
-        this.character?.weaponEffect();
-        this.character?.createBullet();
-      }, 100);
+      if(this.setBulletInterval === null) {
+        this.setBulletInterval = setInterval(() => {
+          this.character?.weaponEffect();
+          this.character?.createBullet();
+        }, 100);
+      }
     });
     document.addEventListener("mouseup", () => {
       clearInterval(this.setBulletInterval);
+      this.setBulletInterval = null;
     });
     document.addEventListener("click", () => {
+      clearInterval(this.setBulletInterval);
+      this.setBulletInterval = null;
       this.character?.weaponEffect();
       this.character?.createBullet();
     });
