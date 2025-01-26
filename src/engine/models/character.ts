@@ -58,10 +58,6 @@ export default class Character {
     if (this.canMove) {
       this.moveCharacter();
     }
-    /*if (this.collideGround) {
-    } else {
-      this.finishLevel();
-    }*/
   }
 
   createCharacter() {
@@ -286,12 +282,4 @@ export default class Character {
       this.engine.composer.passes[1].strength = 0.4;
     }, 50);
   }
-
-  /*finishLevel() {
-    const finishLevel = new CustomEvent("finishLevel", {
-      detail: "finishLevel",
-    });
-
-    window.dispatchEvent(finishLevel);
-  }*/
 }

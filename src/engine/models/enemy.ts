@@ -86,7 +86,7 @@ export default class Enemy {
 
   updateBoundingBox() {
     this.boundingBox.setFromObject(this.mesh);
-    this.boundingBox.expandByScalar(-0.01);
+    this.boundingBox.expandByScalar(0.02);
   }
 
   checkBulletCollision() {

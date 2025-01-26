@@ -131,6 +131,7 @@ onMounted(() => {
   width: 100px;
   text-align: center;
   animation: animate 3s infinite;
+  margin-bottom: 25px;
 }
 
 .HUD__data {

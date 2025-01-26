@@ -10,6 +10,7 @@ import {
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { GlitchPass } from 'three/addons/postprocessing/GlitchPass.js';
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 import Stats from "stats.js";
@@ -17,9 +18,7 @@ import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
 import Enemy from "./models/enemy.ts";
-import Bullet from "./models/bullet.ts";
 import GUI from "lil-gui";
-//import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const {
   chosenLevel,
@@ -123,13 +122,16 @@ export class Engine {
     bloomPass.radius = 0.5;
     this.composer.addPass(bloomPass);
 
+    const glitchPass = new GlitchPass();
+    glitchPass.enabled = false;
+    this.composer.addPass(glitchPass);
+    console.log(glitchPass)
+
     const outputPass = new OutputPass();
     this.composer.addPass(outputPass);
 
     this.globalLight = new AmbientLight(0x581563, 0);
     this.scene.add(this.globalLight);
-    /*const controls = new OrbitControls( this.camera, this.renderer.domElement );
-    controls.update();*/
     ref.appendChild(this.renderer.domElement);
     this.stats.update();
     this.setup();
@@ -389,12 +391,6 @@ export class Engine {
     window.addEventListener("mousemove", (e) => {
       this.mousePos = { x: e.clientX, y: e.clientY };
     });
-
-    /*window.addEventListener("finishLevel", () => {
-      this.stop();
-      this.disablePointerLock();
-      this.showEndGame("win");
-    });*/
     window.addEventListener("loseGame", () => {
       this.stop();
       this.disablePointerLock();
@@ -404,6 +400,10 @@ export class Engine {
       bullets.value = 3 * (100 + wave.value * 10);
       this.grosMenageForWave();
       this.setupNewWave();
+      this.composer.passes[2].enabled = true;
+      setTimeout(() => {
+        this.composer.passes[2].enabled = false;
+      }, 200);
     });
   }
 }

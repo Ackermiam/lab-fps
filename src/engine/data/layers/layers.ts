@@ -837,7 +837,7 @@ export const layers = [
       },
     ],
   },
-  /*{
+  {
     characterPlacement: {
       x: 3,
       z: 7,
@@ -3200,5 +3200,5 @@ export const layers = [
         z: 22,
       },
     ],
-  },*/
+  },
 ];
