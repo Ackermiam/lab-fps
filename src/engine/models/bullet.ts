@@ -12,7 +12,6 @@ export default class Bullet {
   mesh: Mesh;
   position: Vector3;
   direction: Matrix4;
-  speed: number;
   boundingBox: Box3;
   engine: Engine;
 
@@ -22,7 +21,6 @@ export default class Bullet {
     this.direction = new Matrix4();
     this.mesh = new Mesh();
     this.engine = engine;
-    this.speed = 2;
     this.setupBullet(engine, pos, dir);
   }
 
@@ -32,7 +30,7 @@ export default class Bullet {
   }
 
   setupBullet(engine: Engine, pos: Vector3, direction: Matrix4) {
-    const geometry = new SphereGeometry(0.005, 15, 8);
+    const geometry = new SphereGeometry(0.008, 15, 8);
     const material = new MeshPhongMaterial({
       color: "#00fff2",
       emissive: "#00fff2",
@@ -51,7 +49,7 @@ export default class Bullet {
     const forwardVector = new Vector3(0, 0, -1).applyMatrix4(this.direction);
     forwardVector.normalize();
 
-    const moveZ = forwardVector.multiplyScalar(this.engine.delta * 10);
+    const moveZ = forwardVector.multiplyScalar(this.engine.delta * 30);
 
     this.mesh.position.add(moveZ);
   }

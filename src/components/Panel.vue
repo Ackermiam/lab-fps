@@ -37,16 +37,13 @@
               Je ne sais pas où je suis, ni comment je suis arrivé ici.. <br />
               Je me souviens juste des tornades... <br />
               On a percuté une tornade.. <br />
-              Mais je suis sûr d'une chose, je dois sortir de là.. et.. au plus
-              vite !
+              Mais je suis sûr d'une chose, je dois survivre !
             </p>
 
             <p class="Content--mission__instructions">
-              Vous devez survivre, toutes les 2 minutes une nouvelle vague
-              d'ennemies arrive. <br />Au clic sur le bouton
-              <strong>"Jouer"</strong>, le chronomètre se déclenchera.
-              <br />
-              Survivez le plus longtemps.
+              Vous avez 2 minutes pour détruire les ennemis de la map. Vague
+              après vague les ennemis sont plus robustes. <br />Au clic sur le
+              bouton <strong>"Jouer"</strong>, le chronomètre se déclenchera.
               <br />
               N'oubliez pas de vérifier dans <strong>"Controls"</strong> les
               controles du jeu !

@@ -17,13 +17,16 @@ import { settings } from "../composables/handleSettings.ts";
 import Environment from "./models/environment.ts";
 import Character from "./models/character.ts";
 import Enemy from "./models/enemy.ts";
+import Bullet from "./models/bullet.ts";
 import GUI from "lil-gui";
 //import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const {
   chosenLevel,
   panelIsVisible,
+  bullets,
   wave,
+  enemies,
   manageEndgame,
   redoGame,
   beginGame,
@@ -149,11 +152,17 @@ export class Engine {
   }
 
   setup() {
-    const startEnemies = [new Enemy(this, 50 * wave.value), new Enemy(this, 50 * wave.value)];
+    const startEnemies = [
+      new Enemy(this, 30),
+      new Enemy(this, 30),
+      new Enemy(this, 30),
+    ];
     this.environment = new Environment(this);
     this.character = new Character(this);
     this.enemy?.push(...startEnemies);
     this.meshs.push(this.environment, this.character, ...this.enemy);
+    bullets.value = 300;
+    this.resetHUDEnemies();
     this.addChildren();
     this.setupGUI();
     this.setView();
@@ -199,14 +208,6 @@ export class Engine {
     window.addEventListener("keydown", (e) => {
       if (e.key == "t") gui.show(gui._hidden);
     });
-  }
-
-  instanceEnemies(numberToCreate: number) {
-    for(let i = 0; i < numberToCreate; i++) {
-      const enemy = new Enemy(this, 50 * wave.value)
-      this.meshs.push(enemy);
-      this.scene.add(enemy.mesh);
-    }
   }
 
   changeFov(start, end) {
@@ -269,6 +270,7 @@ export class Engine {
     this.environment = null;
     this.character = null;
     this.meshs = [];
+    this.enemy = [];
   }
 
   addChildren() {
@@ -310,11 +312,19 @@ export class Engine {
     manageEndgame();
   }
 
-  cleanUselessBullets() {
-    console.log({
-      meshs: this.meshs,
-      scene: this.scene,
-    });
+  triggerBullet() {
+    clearInterval(this.setBulletInterval);
+    this.setBulletInterval = null;
+    if (bullets.value > 0 && !panelIsVisible.value) {
+      console.log('tir')
+      this.character?.weaponEffect();
+      this.character?.createBullet();
+      bullets.value -= 1;
+    }
+  }
+
+  handleBulletTrigger = () => {
+    this.triggerBullet();
   }
 
   enablePointerLock() {
@@ -322,10 +332,16 @@ export class Engine {
 
     document.addEventListener("mousemove", this.handleMouseMove);
     document.addEventListener("mousedown", () => {
-      if(this.setBulletInterval === null) {
+      if (this.setBulletInterval === null && !panelIsVisible.value) {
         this.setBulletInterval = setInterval(() => {
-          this.character?.weaponEffect();
-          this.character?.createBullet();
+          if (bullets.value > 0) {
+            this.character?.weaponEffect();
+            this.character?.createBullet();
+            bullets.value -= 1;
+          } else {
+            clearInterval(this.setBulletInterval);
+            this.setBulletInterval = null;
+          }
         }, 100);
       }
     });
@@ -333,23 +349,38 @@ export class Engine {
       clearInterval(this.setBulletInterval);
       this.setBulletInterval = null;
     });
-    document.addEventListener("click", () => {
-      clearInterval(this.setBulletInterval);
-      this.setBulletInterval = null;
-      this.character?.weaponEffect();
-      this.character?.createBullet();
-    });
+    document.addEventListener("click", this.handleBulletTrigger);
   }
+
 
   disablePointerLock() {
     document.exitPointerLock();
 
     document.removeEventListener("mousemove", this.handleMouseMove);
+    document.removeEventListener("click", this.handleBulletTrigger);
   }
 
   handleMouseMove = (event: MouseEvent) => {
     this.moveVision(event);
   };
+
+  setupNewWave() {
+    for (let i = 0; i < 3; i++) {
+      const enemy = new Enemy(this, 50 + wave.value * 10);
+      this.meshs.push(enemy);
+      this.scene.add(enemy.mesh);
+    }
+    this.resetHUDEnemies();
+  }
+
+  resetHUDEnemies() {
+    enemies.value = [{ life: 50 }, { life: 50 }, { life: 50 }];
+  }
+
+  grosMenageForWave() {
+    this.meshs = this.meshs.filter((_, i) => i < 2);
+    this.scene.children = this.scene.children.filter((_, i) => i < 3);
+  }
 
   registerEventListeners() {
     window.onresize = () => {
@@ -359,18 +390,20 @@ export class Engine {
       this.mousePos = { x: e.clientX, y: e.clientY };
     });
 
-    window.addEventListener("finishLevel", () => {
+    /*window.addEventListener("finishLevel", () => {
       this.stop();
       this.disablePointerLock();
       this.showEndGame("win");
-    });
+    });*/
     window.addEventListener("loseGame", () => {
       this.stop();
       this.disablePointerLock();
       this.showEndGame("lose");
     });
-    window.addEventListener('wave', () => {
-      this.instanceEnemies(3)
-    })
+    window.addEventListener("wave", () => {
+      bullets.value = 3 * (100 + wave.value * 10);
+      this.grosMenageForWave();
+      this.setupNewWave();
+    });
   }
 }

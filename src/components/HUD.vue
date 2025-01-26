@@ -10,14 +10,26 @@
       <p class="HUD__boussole--West">O</p>
       <p class="HUD__boussole--East">E</p>
     </div>
-    <div class="HUD__wave">Wave {{ wave }}</div>
-    <div class="HUD__timer">{{ formattedTime }}</div>
+    <div style="display: flex; flex-direction: column; align-items: center">
+      <div class="HUD__wave">Wave {{ wave }}</div>
+      <div class="HUD__ennemies">
+        <div v-for="(_, i) in enemies" :key="i" class="HUD__ennemies__enemy">
+        </div>
+      </div>
+    </div>
+    <div class="HUD__data">
+      <div class="HUD__timer">{{ formattedTime }}</div>
+      <div class="HUD__bullets">
+        <img src="/balle.png" />
+        <span>{{ bullets }}</span>
+      </div>
+    </div>
     <div class="HUD__pointer"></div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { settings } from "../composables/handleSettings";
 
 const {
@@ -26,6 +38,8 @@ const {
   waveEvent,
   timeRemaining,
   wave,
+  bullets,
+  enemies,
   openPanel,
   redoGame,
   restartTime,
@@ -49,17 +63,20 @@ onMounted(() => {
         timeRemaining.value++;
         allTime++;
       }
-      if (allTime > 0 && allTime % 60 === 0) {
-        window.dispatchEvent(waveEvent);
-        wave.value++;
+      if (allTime > 0 && allTime % 120 === 0) {
+        if (enemies.value.length > 0) {
+          window.dispatchEvent(stopEvent);
+          redoGame();
+          openPanel();
+          restartTime();
+          allTime = 0;
+        } else {
+          window.dispatchEvent(waveEvent);
+          restartTime();
+          allTime = 0;
+          wave.value++;
+        }
       }
-    } else {
-      //clearInterval(timerInterval);
-      window.dispatchEvent(stopEvent);
-      redoGame();
-      openPanel();
-      restartTime();
-      allTime = 0;
     }
   }, 1000);
 });
@@ -99,6 +116,7 @@ onMounted(() => {
   font-size: 2em;
   color: white;
   filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
+  margin-bottom: 25px;
 }
 
 .HUD__timer {
@@ -113,6 +131,43 @@ onMounted(() => {
   width: 100px;
   text-align: center;
   animation: animate 3s infinite;
+}
+
+.HUD__data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.HUD__ennemies {
+  display: flex;
+  gap: 25px;
+}
+
+.HUD__ennemies__enemy {
+  width: 25px;
+  height: 25px;
+  background: red;
+  filter: drop-shadow(0px 0px 8px rgba(255, 36, 36, 0.9));
+  transform: rotate(45deg)
+}
+
+.HUD__bullets {
+  color: white;
+  font-size: 1.2em;
+  font-family: "Mewatonia", sans-serif;
+  filter: drop-shadow(0px 0px 8px rgba(0, 238, 255, 0.9));
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.HUD__bullets img {
+  width: 25px;
+}
+
+.HUD__bullets span {
+  font-size: 1.5em;
 }
 
 p {
@@ -149,7 +204,7 @@ p {
 
 .HUD__pointer {
   position: absolute;
-  top: 55%;
+  top: 53%;
   left: 50%;
   height: 5px;
   width: 5px;

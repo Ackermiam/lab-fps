@@ -12,7 +12,7 @@ import type { Engine } from "../engine";
 import { settings } from "../../composables/handleSettings";
 
 import groundtexture from "../../assets/textures/groundtexture.jpg";
-const {randomPlace} = settings();
+const { randomPlace, enemies } = settings();
 
 export default class Enemy {
   mesh: Mesh;
@@ -23,8 +23,16 @@ export default class Enemy {
   texture: Record<string, any>;
   loadingManager: LoadingManager;
   life: number;
+  destination: {
+    x: number;
+    z: number;
+  };
 
   constructor(engine: Engine, life: number) {
+    this.destination = {
+      x: randomPlace(),
+      z: randomPlace(),
+    };
     this.life = life;
     this.loadingManager = new LoadingManager();
     this.textureLoader = new TextureLoader(this.loadingManager);
@@ -36,6 +44,12 @@ export default class Enemy {
     this.boundingBox = new Box3();
     this.light = new PointLight(0xaa0000, 1.5, 1);
     this.mesh.add(this.light);
+    setInterval(() => {
+      this.destination = {
+        x: randomPlace(),
+        z: randomPlace(),
+      };
+    }, 10000);
   }
 
   tick() {
@@ -51,7 +65,7 @@ export default class Enemy {
     const material = new MeshPhongMaterial({
       color: 0xff0000,
       displacementMap: this.texture,
-      displacementScale: 0.035,
+      displacementScale: 0.005,
     });
     const mesh = new Mesh(box, material);
     mesh.userData.typeOfBlock = "enemy";
@@ -62,10 +76,7 @@ export default class Enemy {
   moveEnemy() {
     this.mesh.rotation.y = this.engine.elapsedTime;
     this.mesh.position.y = Math.cos(this.engine.elapsedTime * 2) / 4 + 0.3;
-    this.moveTransition(
-      this.mesh.position,
-      this.engine.character?.mesh.position
-    );
+    this.moveTransition(this.mesh.position, this.destination);
   }
 
   moveTransition(start, end) {
@@ -89,10 +100,10 @@ export default class Enemy {
         setTimeout(() => {
           this.light.intensity = 1.5;
           this.mesh.children[0].material.emissive.setHex(0x000000);
-        },100)
+        }, 100);
         if (this.life <= 0) {
           let id = this.mesh.uuid;
-
+          enemies.value.splice(0, 1)
           this.engine.meshs = this.engine.meshs.filter(
             (meshObj) => meshObj.mesh.uuid !== id
           );

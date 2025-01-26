@@ -26,10 +26,8 @@ export default class Character {
   isTp: boolean;
   bullets: any[];
   life: number;
-  stockBullets: number;
 
   constructor(engine: Engine) {
-    this.stockBullets = 300;
     this.life = 50;
     this.bullets = [];
     this.collideGround = true;
@@ -52,18 +50,18 @@ export default class Character {
   }
 
   tick() {
-    if (this.collideGround) {
-      this.updateCameraPosition();
-      this.moveLight();
-      this.updateBoundingBox();
-      this.checkGroundCollision();
-      this.checkBulletCollision();
-      if (this.canMove) {
-        this.moveCharacter();
-      }
+    this.updateCameraPosition();
+    this.moveLight();
+    this.updateBoundingBox();
+    this.checkGroundCollision();
+    this.checkBulletCollision();
+    if (this.canMove) {
+      this.moveCharacter();
+    }
+    /*if (this.collideGround) {
     } else {
       this.finishLevel();
-    }
+    }*/
   }
 
   createCharacter() {
@@ -268,12 +266,13 @@ export default class Character {
     const bullet = new Bullet(this.engine, bulletPos, cameraMatrix);
 
     this.bullets.push(bullet);
+    console.log('tiré')
   }
 
   updateCameraPosition() {
     this.engine.camera.position.x = this.mesh.position.x;
     this.engine.camera.position.y = this.mesh.position.y + 0.2;
-    this.engine.camera.position.z = this.mesh.position.z + 0.07;
+    this.engine.camera.position.z = this.mesh.position.z;
   }
 
   updateBoundingBox() {
@@ -288,11 +287,11 @@ export default class Character {
     }, 50);
   }
 
-  finishLevel() {
+  /*finishLevel() {
     const finishLevel = new CustomEvent("finishLevel", {
       detail: "finishLevel",
     });
 
     window.dispatchEvent(finishLevel);
-  }
+  }*/
 }

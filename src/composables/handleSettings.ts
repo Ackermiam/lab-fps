@@ -8,6 +8,7 @@ const endgameIsVisible = ref(false);
 const stopEvent = new CustomEvent("loseGame", { detail: "lose" });
 const waveEvent = new CustomEvent("wave", { detail: "newWave" });
 const win = ref(false);
+const bullets = ref(300);
 
 //MENU
 const displayMenu = ref(false);
@@ -21,6 +22,13 @@ const timeRemaining = ref(1);
 
 //WAVES
 const wave = ref(1);
+
+//ENEMIES
+const enemies = ref([
+  {life: 50},
+  {life: 50},
+  {life: 50},
+])
 
 export const settings = () => {
   const manageWin = (state: boolean) => {
@@ -57,6 +65,7 @@ export const settings = () => {
   const redoGame = () => {
     displayBeginMenu.value = false;
     displayMenu.value = true;
+    wave.value = 1;
   };
 
   const choseLevel = () => {
@@ -100,6 +109,8 @@ export const settings = () => {
     endgameIsVisible,
     timeRemaining,
     win,
+    bullets,
+    enemies,
     randomPlace,
     triggerHome,
     triggerGame,
