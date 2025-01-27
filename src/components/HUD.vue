@@ -12,9 +12,12 @@
     </div>
     <div style="display: flex; flex-direction: column; align-items: center">
       <div class="HUD__wave">Wave {{ wave }}</div>
-      <div class="HUD__ennemies">
+      <div v-if="enemies.length > 0" class="HUD__ennemies">
         <div v-for="(_, i) in enemies" :key="i" class="HUD__ennemies__enemy">
         </div>
+      </div>
+      <div v-if="enemies.length === 0" class="HUD__waiting">
+        Attendez la prochaine vague
       </div>
     </div>
     <div class="HUD__data">
@@ -143,6 +146,15 @@ onMounted(() => {
 .HUD__ennemies {
   display: flex;
   gap: 25px;
+}
+
+.HUD__waiting {
+  color: white;
+  font-size: 1.8em;
+  font-family: "Mewatonia", sans-serif;
+  filter: drop-shadow(0px 0px 8px rgba(255, 0, 0, 1));
+  text-align: center;
+  animation: loading 1s infinite;
 }
 
 .HUD__ennemies__enemy {

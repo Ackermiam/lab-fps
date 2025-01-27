@@ -24,11 +24,7 @@ La différence ? La vue est maintenant en première personne.
 - Chargement de map aléatoire
 - Portail de téléportation
 - Revoir le système de collision
-
-## Futures fonctionnalités/update ?
-
 - Tirer avec son arme
-- Elements destructible
 - Presence d'ennemis
 - Système de vague
 
@@ -39,6 +35,8 @@ La différence ? La vue est maintenant en première personne.
 - Now you can fire with your gun
 - There is ennemy to kill
 - The game is no longer a labyrinth, but a survival map
+- Add Wave gameplay system
+- Add Glitch post processing shader when switch wave
 
 ## 0.2.2
 

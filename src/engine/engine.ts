@@ -73,9 +73,9 @@ export class Engine {
     const { width, height } = ref.getBoundingClientRect();
     this.setBulletInterval = null;
     this.enemy = [];
-    this.stats = new Stats();
-    this.stats.showPanel(0);
-    document.body.appendChild(this.stats.dom);
+    //this.stats = new Stats();
+    //this.stats.showPanel(0);
+    //document.body.appendChild(this.stats.dom);
     this.meshs = [];
     this.mousePos = { x: 0, y: 0 };
     this.ref = ref;
@@ -133,20 +133,20 @@ export class Engine {
     this.globalLight = new AmbientLight(0x581563, 0);
     this.scene.add(this.globalLight);
     ref.appendChild(this.renderer.domElement);
-    this.stats.update();
+    //this.stats.update();
     this.setup();
   }
 
   tick() {
     this.composer.render();
-    this.stats.begin();
+    //this.stats.begin();
     if (panelIsVisible.value === false) {
       this.delta = this.clock.getDelta();
       this.elapsedTime = this.clock.getElapsedTime();
       this.tickChildren();
     }
     this.checkFov();
-    this.stats.end();
+    //this.stats.end();
 
     this.animationFrameId = requestAnimationFrame(() => {
       this.tick();
@@ -344,7 +344,7 @@ export class Engine {
             clearInterval(this.setBulletInterval);
             this.setBulletInterval = null;
           }
-        }, 100);
+        }, 70);
       }
     });
     document.addEventListener("mouseup", () => {

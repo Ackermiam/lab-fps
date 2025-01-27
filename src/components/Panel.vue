@@ -51,38 +51,49 @@
               Bonne chance !
             </p>
           </div>
-          <div v-if="controls" class="Content--controls">
-            <div class="Control--menu">
-              <div class="Control">
-                <p class="Key Key--large">Shift</p>
-                <p>Courir</p>
+          <div
+            v-if="controls"
+            style="display: flex; flex-direction: column; align-items: center"
+          >
+            <div class="Content--controls">
+              <div class="Control--menu">
+                <div class="Control">
+                  <p class="Key Key--large">Shift</p>
+                  <p>Courir</p>
+                </div>
               </div>
-            </div>
-            <div class="Content--controls__layout">
-              <div class="Control">
-                <p class="Key">Z</p>
-                <p>Avancer</p>
-              </div>
+              <div class="Content--controls__layout">
+                <div class="Control">
+                  <p class="Key">Z</p>
+                  <p>Avancer</p>
+                </div>
 
-              <div class="Control--group">
-                <div class="Control">
-                  <p class="Key">Q</p>
-                  <p>Gauche</p>
+                <div class="Control--group">
+                  <div class="Control">
+                    <p class="Key">Q</p>
+                    <p>Gauche</p>
+                  </div>
+                  <div class="Control">
+                    <p class="Key">S</p>
+                    <p>Reculer</p>
+                  </div>
+                  <div class="Control">
+                    <p class="Key">D</p>
+                    <p>Droite</p>
+                  </div>
                 </div>
+              </div>
+              <div class="Control--menu">
                 <div class="Control">
-                  <p class="Key">S</p>
-                  <p>Reculer</p>
-                </div>
-                <div class="Control">
-                  <p class="Key">D</p>
-                  <p>Droite</p>
+                  <p class="Key">F</p>
+                  <p>Pause</p>
                 </div>
               </div>
             </div>
-            <div class="Control--menu">
-              <div class="Control">
-                <p class="Key">F</p>
-                <p>Pause</p>
+            <div class="Control--menu--clic">
+              <div class="Control--clic">
+                <p class="Key--xlarge">Clic gauche</p>
+                <p>Tirer</p>
               </div>
             </div>
           </div>
@@ -148,10 +159,11 @@ const showControls = () => {
   padding: 50px;
   box-sizing: border-box;
   color: white;
+  gap: 50px;
 }
 
 .Panel__menu__items__content {
-  width: 60%;
+  width: 100%;
 }
 
 .Panel__menu__items__subjects {
@@ -178,6 +190,7 @@ const showControls = () => {
 .Content--controls {
   display: flex;
   align-items: end;
+  width: fit-content;
 }
 
 .Content--controls__layout {
@@ -205,6 +218,11 @@ const showControls = () => {
   text-align: center;
 }
 
+.Control--menu--clic {
+  text-align: center;
+  margin-top: 40px;
+}
+
 .Key {
   border: 2px solid white;
   width: 60px;
@@ -216,6 +234,14 @@ const showControls = () => {
 .Key--large {
   border: 2px solid white;
   width: 90px;
+  height: 45px;
+  margin: 0;
+  padding-top: 10px;
+}
+
+.Key--xlarge {
+  border: 2px solid white;
+  width: 110px;
   height: 45px;
   margin: 0;
   padding-top: 10px;
