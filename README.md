@@ -8,7 +8,7 @@
 
 ## Principe du jeu
 
-**5 minutes**. 5 minutes c'est le temps dont vous disposez pour vous échapper du labyrinthe dans lequel vous êtes.
+**2 minutes**. 2 minutes c'est le temps dont vous disposez pour éliminer tous les ennemis de la map, vague après vague.
 Doomo est une réinterprétation du projet `Labyrinthe` sorti quelques jours avant ce mini-jeu.
 La différence ? La vue est maintenant en première personne.
 
