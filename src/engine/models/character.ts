@@ -277,7 +277,7 @@ export default class Character {
   }
 
   weaponEffect() {
-    this.engine.composer.passes[1].strength = 1;
+    this.engine.composer.passes[1].strength = .7;
     setTimeout(() => {
       this.engine.composer.passes[1].strength = 0.4;
     }, 50);
